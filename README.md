@@ -14,7 +14,29 @@ This repository contains the code accompanying the following scientific article:
 
 **Teaser**: *Local sea level rise projections consistent with historical data improve coastal impact assessment and adaptation planning.*
 
+## Caveats
+
+The current version of this repository is mostly intended for documentation purpose and is probably challenging to use out-of-the-box for 
+a third person. We intend to make it more readily usable over time, and depending on the interest in the community.
+
+The current version underwent an initial cleanup of the original research code. The cleanup is still ongoing 
+to remove experimental dead-ends, i.e. little-used or obsolete parts of the code, and to improve (or add) documentation.
+Despite our efforts and checks to ensure no error are introduced in the process, this cannot be excluded.
+We'll be working actively to fix any issue as they are spotted. 
+
+Some parts of the code included in this repository are not directly related to the cited publication. 
+The code is intended for a wider purpose and will be extended beyond what was initially published.
+
+Perhaps most importantly, we have not yet found a satisfactory manner of distributing *all* required data to run the code 
+(see [Data and Materials Availability](#data-and-materials-availability)). The main reason is lack of time to coordinate
+with the helpful colleagues that provided us their data, and potential licensing issues in including data from other sources. 
+There is also the sheer volume of some of the datasets involved. We hope this can be fixed in the future. 
+We already made some steps in that direction with our download tool below, 
+and are considering [more radical approaches](https://snakemake.readthedocs.io/en/stable/).
+
 ## Quickstart
+
+### Install the Package
 
 We used `python=3.11` with `pymc=5.9` for this project.
 
@@ -26,53 +48,15 @@ source .venv/bin/activate
 pip install -U pip
 ```
 
-### Install the Package
-
 Clone the repository and install it in **editable** mode:
 
 ```bash
 pip install -e .
 ```
 
-This allows development and editing without reinstallation. Alternatively, add the repository to your `PYTHONPATH` and install dependencies via:
-
-```bash
-pip install -r requirements.txt
-```
-
-The exact package versions used can be found in [requirements-manifest.txt](requirements-manifest.txt), as output from `pip freeze`.
+In case issues are encountered, you may try the exact package versions used by the authors [requirements-manifest.txt](requirements-manifest.txt), as output from `pip freeze`.
 
 > Without installation, command-line scripts such as `sealevelbayes-run` will not be available. Use `python -m sealevelbayes.runslr` or similar instead.
-
-## Fetch data dependencies
-
-Data that can be downloaded from external, official sources are not included in the repository.
-Instead they are registered internally and can be listed and downloaded `sealevelbayes-download` script,
-which is an alias for `python -m sealevelbayes.datasets.manager`, e.g.
-
-```bash
-sealevelbayes-download --ls
-```
-
-Examples:
-
-```bash
-
-    sealevelbayes-download --name church_white_gmsl_2011_up naturalearth/ne_110m_coastline
-    sealevelbayes-download --name psmsl*
-    sealevelbayes-download --json  # a custom selection of datasets for basic use of the package without recalibration
-    sealevelbayes-download --all
-```
-
-The specific datasets can be found in [datasets.json](pm2025/datasets.json).
-
-To reproduce results from the submitted manuscript by Perrette & Mengel (2025), ensure you use the correct historical dataset versions. Contact the authors or consult the Zenodo archive (forthcoming) if needed.
-
-WARNINGS: some datasets are very large (e.g. the Garner et al. 2021 regional data is 37 GB). You may want to edit [datasets.json](pm2025/datasets.json) to remove it, if not used.
-
-The listing does not include the CMIP6 archive for piControl runs. They are available from the usual ESGF portals.
-
-Additional data from Frederikse et al. (2020) and Caron et al. (2017) were obtained via personal communication with the authors and are available from the corresponding author upon reasonable request.
 
 ## Configuration
 
@@ -93,46 +77,55 @@ sealevelbayes-config > config.toml
 Example entries:
 
 ```toml
-download_facts_data = false
 datadir = "{REPODIR}/sealeveldata"
 rundir = "{REPODIR}/runs"
-isimipdir = "/p/projects/isimip/isimip"
 ```
-
-The last line points to the ISIMIP mirror on the PIK cluster. (not used in Perrette and Mengel (2025), Sci. Adv., submitted)
 
 ## Running the Model
 
-Once installed, explore available options with:
+Once installed, the model can be run with:
 
 ```bash
-sealevelbayes-run --help
+sealevelbayes-run [...]
 ```
 
-A default configuration and example runs will be made available in future updates.
-See the [pm2025](/pm2025) folder to run the experiments in Perrette and Mengel (2025)
-
-
-## Model parameters
+and the associated code can be found in the submodule [sealevelbayes.runslr](sealevelbayes/runslr.py). 
 
 The model parameters are defined in [runparams.py](/sealevelbayes/runparams.py) via the python argparse module.
-The default is to run the default experiment in Perrette and Mengel (2025).
+The default is to run the default experiment in Perrette and Mengel (2025). 
+See the [pm2025](/pm2025) folder to run the various sensitivity experiments described in the manuscript.
 
-See for [this example](/pm2025/run_all_experiments.sh) to run the various sensitivity experiments.
+An overview of all available parameters can be printed via
 
-It is possible to quickly print the runID via
+    sealevelbayes-run --help
+
+A complete documentation is still work in progress.
+
+### Model parameters input and run ID
+
+Indicating different parameters via 
+the command line will usually result in an automatically generated `run ID`, 
+which is used as name for the output folder.
+
+It is possible to print the runID via
 
     sealevelbayes-runid [...]
 
-Or the full config via
+And the full config via
 
-    sealevelbayes-runid --print-config
+    sealevelbayes-runid [...] --print-config
 
-This allow a workflow like:
+Where `[...]` refers to any parameter you would pass to `sealevelbayes-run`.
+This allows a workflow like:
 
     sealevelbayes-runid [...any parameter you want or nothing] --print-config > options.json
     # maybe edit the options.json
     sealevelbayes-run --param-file options.json
+
+Also note that if an experiment is interrupted during sampling, it is possible to resume it via
+
+    sealevelbayes-run --cirun <run ID> --resume
+    
 
 ## License
 
@@ -170,19 +163,45 @@ This work has received funding from:
 
 ## Data and Materials Availability
 
-The data required to reproduce the main analysis are available at:
+Third-party data are not included in the repository. 
+They must be downloaded directly from openly available sources as documented in the Methods section of the associated article,
+and by using our [helper tool](#data-download-tool). The following datasets were obtained via personal communication:
+
+- Glacier fingerprints shared by Thomas Frederikse, used in his work in: [Frederikse et al. (2020), *Nature*](https://www.nature.com/articles/s41586-020-2591-3)
+- The GIA ensemble described in: [Caron et al. (2018), *Geophysical Research Letters*](https://doi.org/10.1002/2017GL076644)
+
+These datasets are essential components required to run our model.
+If you wish to obtain a copy of these data, please contact the corresponding author, or the respective authors directly. 
+
+The data output from the main analysis are available at:
   https://doi.org/10.5281/zenodo.15230503
 
-An interactive visualization of sea-level estimates at tide gauge stations is available at:
+An interactive visualization of sea-level estimates at tide gauge stations, based on the output data included in the zenodo repository, is available at:
   https://sealevel.netlify.app
 
-**Note on third-party data**:
 
-Some datasets included in the repository (e.g. under sealeveldata/frederikse2020-personal-comm/) were obtained via personal communication and do not have a clearly defined public license. These include:
+## Data download tool
 
-- Glacier fingerprints and glacial isostatic adjustment (GIA) statistics shared by Thomas Frederikse, partly based on his work in: [Frederikse et al. (2020), *Nature*](https://www.nature.com/articles/s41586-020-2591-3)
+An helper tool is provided to download many of the openly available datasets.
+They can be listed and downloaded via the `sealevelbayes-download` script,
+which is an alias for `python -m sealevelbayes.datasets.manager`, e.g.
 
-- GIA statistics derived from: [Caron et al. (2018), *Geophysical Research Letters*](https://doi.org/10.1002/2017GL076644)
+```bash
+sealevelbayes-download --ls
+```
 
-These datasets are required to fully reproduce the published results but may not be redistributed without the consent of the original authors.
-If you wish to use these data beyond reproducibility, please contact the respective authors directly. We thank them for sharing their data and recommend proper acknowledgment in any derivative work.
+Examples:
+
+```bash
+    sealevelbayes-download --print
+    sealevelbayes-download --name church_white_gmsl_2011_up naturalearth/ne_110m_coastline
+    sealevelbayes-download --name psmsl*
+    sealevelbayes-download --json  # a custom selection of datasets for basic use of the package without recalibration
+    sealevelbayes-download --all
+```
+
+The datasets metadata handled by the tool can be found in [datasets.json](pm2025/datasets.json).
+
+WARNINGS: some datasets are very large (e.g. the Garner et al. 2021 regional data is 37 GB). You may want to edit [datasets.json](pm2025/datasets.json) to remove it, if not used.
+
+The listing does not include the CMIP6 archive for piControl runs. They are available from the usual ESGF portals.  
