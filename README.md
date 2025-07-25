@@ -16,8 +16,10 @@ This repository contains the code accompanying the following scientific article:
 
 ## Caveats
 
-The current version of this repository is mostly intended for documentation purpose and is probably challenging to use out-of-the-box for 
-a third person. We intend to make it more readily usable over time, and depending on the interest in the community.
+The current version of this repository is primarily intended for documentation purpose 
+and is probably challenging to use out-of-the-box for 
+a third person, for reasons outlined below.
+We intend to make it more readily usable over time, and depending on the interest in the community.
 
 The current version underwent an initial cleanup of the original research code. The cleanup is still ongoing 
 to remove experimental dead-ends, i.e. little-used or obsolete parts of the code, and to improve (or add) documentation.
@@ -27,7 +29,7 @@ We'll be working actively to fix any issue as they are spotted.
 Some parts of the code included in this repository are not directly related to the cited publication. 
 The code is intended for a wider purpose and will be extended beyond what was initially published.
 
-Perhaps most importantly, we have not yet found a satisfactory manner of distributing *all* required data to run the code 
+We have not yet found a satisfactory manner of distributing *all* required data to run the code 
 (see [Data and Materials Availability](#data-and-materials-availability)). The main reason is lack of time to coordinate
 with the helpful colleagues that provided us their data, and potential licensing issues in including data from other sources. 
 There is also the sheer volume of some of the datasets involved. We hope this can be fixed in the future. 
@@ -125,7 +127,18 @@ This allows a workflow like:
 Also note that if an experiment is interrupted during sampling, it is possible to resume it via
 
     sealevelbayes-run --cirun <run ID> --resume
-    
+
+### Postprocessing
+
+The `pymc` model produces a "trace.nc" file (arviz' Inference data format) with all samples inside. However
+the trace only contains the random variables, observations, and the two SSP scenarios needed to apply the 2100 
+constraints (otherwise it would grow too large). Running additional scenarios, or calculating specific diagnostic requires a re-run with 
+`pymc.sample_posterior_predictive`, whereby the model is extended with new diagnostics, and the global-mean-temperature
+driver is augmented with new scenarios. Typically that step is much faster than the actual sampling (a few minutes vs up to 24 hours). 
+To streamling the process of reloading, extending or redefining models and traces,
+see [sealevelbayes.postproc.run.ExperimentTrace](/sealevelbayes/postproc/run.py).
+The figures included in the associated manuscript were produced from the [jupyter notebooks](/notebooks) included in this repository.
+They can serve as an entry point for the curious user.
 
 ## License
 
