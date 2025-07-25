@@ -1,0 +1,1 @@
+from sealevelbayes._version import __version__

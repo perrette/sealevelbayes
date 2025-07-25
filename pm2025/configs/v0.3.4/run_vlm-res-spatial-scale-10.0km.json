@@ -1,0 +1,352 @@
+{
+  "log_file": null,
+  "log_level": null,
+  "version": false,
+  "config_file": "/p/projects/isipedia/perrette/sealevel/sealevelbayes-pr-publish/config.toml",
+  "param_file": null,
+  "preset": [],
+  "nuts_sampler": "numpyro",
+  "resume": false,
+  "ref": "v0.3.4",
+  "name": null,
+  "suffix": "",
+  "cirun": null,
+  "dirname": null,
+  "no_sampling": false,
+  "draws": 1000,
+  "tune": 1000,
+  "chains": 4,
+  "cpus": 4,
+  "target_accept": null,
+  "experiments": null,
+  "global_slr_method": "estimate_coupled",
+  "sources": [
+    "gis",
+    "ais",
+    "steric",
+    "glacier",
+    "landwater"
+  ],
+  "standalone_global_trace": null,
+  "global_slr_only": false,
+  "add_global_slr_only": false,
+  "save_timeseries": false,
+  "random_seed": null,
+  "json": false,
+  "figs": false,
+  "linear_icesheet": false,
+  "regional_glacier": true,
+  "glacier_model_version": "v2",
+  "add_uncharted_glaciers": true,
+  "add_glacier_noise": true,
+  "add_antarctica_noise": true,
+  "add_greenland_noise": true,
+  "add_steric_noise": true,
+  "glacier_noise_crosscorrel": false,
+  "noise_obs_autocorrel": true,
+  "glacier_noise_apply_constraints": false,
+  "glacier_noise_on_forcing": false,
+  "glacier_noise_clip_volume": true,
+  "steric_noise_obs_autocorrel": true,
+  "greenland_noise_obs_autocorrel": true,
+  "glacier_noise_obs_autocorrel": true,
+  "antarctica_noise_obs_autocorrel": true,
+  "noise_gp_cov": "Matern12",
+  "noise_gp_cov_params": null,
+  "noise_ls_dist": "ConstantData",
+  "noise_ls_dist_params": [
+    5.0
+  ],
+  "noise_sigma_dist": "HalfNormal",
+  "noise_sigma_dist_params": [
+    1.0
+  ],
+  "steric_noise_gp_cov": "WhiteNoise",
+  "steric_noise_gp_cov_params": [
+    1.0
+  ],
+  "steric_noise_ls_dist": null,
+  "steric_noise_ls_dist_params": [
+    1.0
+  ],
+  "steric_noise_sigma_dist": "Exponential",
+  "steric_noise_sigma_dist_params": [
+    1.0
+  ],
+  "glacier_noise_gp_cov": "Matern12",
+  "glacier_noise_gp_cov_params": null,
+  "glacier_noise_ls_dist": "ConstantData",
+  "glacier_noise_ls_dist_auto": false,
+  "glacier_noise_ls_dist_params": [
+    5.0
+  ],
+  "glacier_noise_sigma_dist": "ConstantData",
+  "glacier_noise_sigma_dist_params": [
+    1.0
+  ],
+  "greenland_noise_gp_cov": "Matern12",
+  "greenland_noise_gp_cov_params": null,
+  "greenland_noise_ls_dist": "ConstantData",
+  "greenland_noise_ls_dist_params": [
+    5.0
+  ],
+  "greenland_noise_sigma_dist": "Exponential",
+  "greenland_noise_sigma_dist_params": [
+    1.0
+  ],
+  "antarctica_noise_gp_cov": "WhiteNoise",
+  "antarctica_noise_gp_cov_params": [
+    1.0
+  ],
+  "antarctica_noise_ls_dist": null,
+  "antarctica_noise_ls_dist_params": [
+    1.0
+  ],
+  "antarctica_noise_sigma_dist": "ConstantData",
+  "antarctica_noise_sigma_dist_params": [
+    0.41
+  ],
+  "steric_noise_on_rate": true,
+  "greenland_noise_on_rate": true,
+  "glacier_noise_on_rate": true,
+  "antarctica_noise_on_rate": true,
+  "noise_on_rate": false,
+  "noise_intercept": false,
+  "antarctica_prior_dist_q": "Normal",
+  "antarctica_prior_dist_params_q": [
+    0,
+    2
+  ],
+  "antarctica_prior_dist_a": "Normal",
+  "antarctica_prior_dist_params_a": [
+    0,
+    2
+  ],
+  "antarctica_prior_dist_aT0": "Normal",
+  "antarctica_prior_dist_params_aT0": [
+    -0.25,
+    1
+  ],
+  "greenland_prior_dist_q": "Normal",
+  "greenland_prior_dist_params_q": [
+    0,
+    1
+  ],
+  "greenland_prior_dist_a": "Normal",
+  "greenland_prior_dist_params_a": [
+    0,
+    1
+  ],
+  "greenland_prior_dist_aT0": "Normal",
+  "greenland_prior_dist_params_aT0": [
+    -0.43,
+    1.0
+  ],
+  "steric_prior_dist_b": "ConstantData",
+  "steric_prior_dist_params_b": [
+    0.0
+  ],
+  "steric_prior_dist_a": "Exponential",
+  "steric_prior_dist_params_a": [
+    1.0
+  ],
+  "steric_prior_dist_aT0": "Normal",
+  "steric_prior_dist_params_aT0": [
+    -1.3,
+    1
+  ],
+  "glacier_prior_dist_a": "Exponential",
+  "glacier_prior_dist_params_a": [
+    0.3
+  ],
+  "glacier_prior_dist_aT0": "Normal",
+  "glacier_prior_dist_params_aT0": [
+    -1,
+    2
+  ],
+  "glacier_prior_dist_V0": "Normal",
+  "glacier_prior_dist_params_V0": [
+    0,
+    1
+  ],
+  "glacier_prior_inflate_V0": 1,
+  "glacier_exponent": 0.76,
+  "glacier_dimensionless": true,
+  "antarctica_ar6_method": [
+    "ismipemu"
+  ],
+  "antarctica_future_constraint": "ar6-medium-confidence",
+  "greenland_future_constraint": "ar6-medium-confidence",
+  "static_antarctica": false,
+  "static_greenland": false,
+  "static_steric": false,
+  "static_glacier": false,
+  "greenland_exclude_fred_peripheral_glaciers": true,
+  "greenland_exclude_fred_peripheral_glaciers_method": "offset",
+  "greenland_exclude_fred_peripheral_glaciers_datasets": [
+    "kjeldsen2015",
+    "mouginot2019",
+    "bamber2018"
+  ],
+  "antarctica_exclude_fred_peripheral_glaciers": true,
+  "antarctica_exclude_fred_peripheral_glaciers_method": "offset",
+  "glacier_exclude_icesheets": false,
+  "glacier_regions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19
+  ],
+  "glacier_normalize_future": false,
+  "glacier_uncharted_distribution": "rgi",
+  "glacier_uncharted_exclude_antarctica": true,
+  "greenland_constraints": null,
+  "antarctica_constraints": null,
+  "glacier_constraints": [
+    "proj2100",
+    "mm21+zemp19"
+  ],
+  "steric_constraints": null,
+  "steric_future_constraint_experiments": [
+    "ssp126",
+    "ssp585"
+  ],
+  "greenland_future_constraint_experiments": [
+    "ssp126",
+    "ssp585"
+  ],
+  "antarctica_future_constraint_experiments": [
+    "ssp126",
+    "ssp585"
+  ],
+  "glacier_include_zemp": true,
+  "glacier_include_mm21_error": false,
+  "glacier_regress_on_mm21": false,
+  "glacier_volume_source": "ar6",
+  "glacier_future_constraint_experiments": [
+    "ssp585"
+  ],
+  "glacier_mm21_forcing": [
+    "CRU TS 4.03",
+    "ERA20C",
+    "20CRV3",
+    "CFSR",
+    "JRA55",
+    "ERA5",
+    "MERRA2",
+    "ERA_Interim",
+    "(Mean input)",
+    "(Median input)"
+  ],
+  "glacier_mm21_indiv_weighting": "scale_region",
+  "glacier_mm21_drop_20CRV3_17": false,
+  "glacier_mm21_drop_20CRV3": false,
+  "glacier_future_constraint_on_trend": false,
+  "debug_glacier_future_constraint_no_clip": false,
+  "debug_glacier_future_constraint_scaled": false,
+  "greenland_future_constraint_on_trend": true,
+  "antarctica_future_constraint_on_trend": true,
+  "steric_future_constraint_on_trend": true,
+  "add_constraints": [],
+  "skip_constraints": [],
+  "skip_past_constraints": [],
+  "skip_slr20_constraints": [],
+  "skip_rate2000_constraints": [],
+  "skip_future_constraints": [],
+  "obs_20c": true,
+  "obs_21c": true,
+  "skip_all_constraints": false,
+  "psmsl_label": "psmsl_rlr_1900_2018_subset",
+  "psmsl_ids": null,
+  "station_ids": null,
+  "number": null,
+  "min_years": 20,
+  "flagged": false,
+  "remove_meteo": true,
+  "wind_correction": false,
+  "frederikse_only": true,
+  "coords": [],
+  "grid": null,
+  "grid_bbox": null,
+  "include_gps_stations": null,
+  "classical_formula_for_tides": false,
+  "leave_out_tidegauge_fraction": null,
+  "leave_out_tidegauge": null,
+  "leave_out_tidegauge_ordinal": null,
+  "leave_out_tidegauge_basin": null,
+  "leave_out_tidegauge_basin_id": null,
+  "leave_out_obs_type": [
+    "tidegauge",
+    "satellite",
+    "gps"
+  ],
+  "model_mean_rate_instead_of_lintrend": false,
+  "split_tidegauges": false,
+  "mask_pre_1990": false,
+  "mask_post_1990": false,
+  "covariance_source": "cmip6",
+  "rescale_cmip6": true,
+  "cmip6_interp_method": null,
+  "method": "trend",
+  "covariance_method": null,
+  "mixed_covariance": true,
+  "independent_constraints": [],
+  "tidegauge_mask": [
+    "psmsl"
+  ],
+  "satellite_mask": [
+    "psmsl"
+  ],
+  "gps_mask": [
+    "psmsl"
+  ],
+  "tidegauge_measurement_error": 0.1,
+  "estimate_tidegauge_measurement_error": true,
+  "scale_tidegauge_oceandyn": false,
+  "satellite_measurement_error": 0.1,
+  "satellite_measurement_error_method": "prandi2021",
+  "gps_distance_tol": 0.1,
+  "gps_formal_error": "roughness-no-filtering",
+  "gps_quality": null,
+  "gps_dist": "normal",
+  "gps_scale_error": 1,
+  "gia_eof": true,
+  "gia_eof_num": 30,
+  "vlm_res_mode": "constant",
+  "vlm_res_split_year": 2000,
+  "vlm_res_autocorrel": null,
+  "vlm_res_decadal_autocorrel": null,
+  "vlm_res_sd": 2,
+  "vlm_res_normal": true,
+  "vlm_res_domain": "psmsl",
+  "vlm_res_spatial_scale": 10.0,
+  "oceandyn": true,
+  "mean_oceandyn": false,
+  "oceandyn_models": null,
+  "steric_coef_cov": true,
+  "steric_coef_eof": true,
+  "steric_coef_scale": null,
+  "historical_mass_fingerprints": null,
+  "historical_window": 21,
+  "isimip_mode": false,
+  "isimip_model": null,
+  "isimip_all_scaling_patterns": false,
+  "isimip_steric_sigma": 10,
+  "isimip_tas_noise": false,
+  "isimip_tas_no_obs": false
+}

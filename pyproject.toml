@@ -1,0 +1,54 @@
+[build-system]
+requires = ["setuptools>=61.0", "setuptools_scm[toml]>=8.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sealevelbayes"
+authors = [
+    {name = "Mahé Perrette", email = "mahe.perrette@gmail.com"},
+    {name = "Matthias Mengel", email = "mengel@pik-potsdam.de"},
+]
+
+description='Bayesian sea level modeling at the coast and on the grid'
+readme = "README.md"
+requires-python = ">=3.7"
+keywords = ['sea level', 'climate', 'emulator', 'global mean temperature', 'empirical', 'probabilistic', 'coastal', 'local', 'projection']
+license = {file = LICENSE.md}
+classifiers = [
+    "Programming Language :: Python :: 3",
+]
+
+dynamic = ["version", "dependencies"]
+
+[tool.setuptools.dynamic]
+dependencies =  {file = ["requirements.txt"]}
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = [
+    "sealeveldata",
+    "sealevelbayes",
+    "sealevelbayes.models",
+    "sealevelbayes.preproc",
+    "sealevelbayes.postproc",
+    "sealevelbayes.datasets",
+    "sealevelbayes.datasets.cmip6",
+    "sealevelbayes.datasets.ar6",
+    ]
+
+# [tool.setuptools.package-data]
+# sealeveldata = ["*.txt", "*.rst"]
+
+[project.scripts]
+sealevelbayes-download = "sealevelbayes.datasets.manager:main"
+sealevelbayes-run = "sealevelbayes.runslr:main"
+sealevelbayes-runid = "sealevelbayes.runparams:main"
+sealevelbayes-web = "sealevelbayes.postproc.web:main"
+sealevelbayes-zenodo = "sealevelbayes.postproc.zenodo:main"
+sealevelbayes-config = "sealevelbayes.config:main"
+
+[project.urls]
+homepage = "https://github.com/perrette/sealevelbayes"
+
+[tool.setuptools_scm]
+write_to = "sealevelbayes/_version.py"

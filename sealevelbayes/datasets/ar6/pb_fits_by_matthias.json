@@ -1,0 +1,68 @@
+{
+  "AIS_ssp126_pb_2e": {
+    "distribution": "lognorm",
+    "s": 0.6953206260837115,
+    "loc": -95.4085107904208,
+    "scale": 194.2073778577789
+  },
+  "AIS_ssp245_pb_2e": {
+    "distribution": "lognorm",
+    "s": 0.5551518419821343,
+    "loc": -174.30577444239324,
+    "scale": 280.86886786550195
+  },
+  "AIS_ssp585_pb_2e": {
+    "distribution": "lognorm",
+    "s": 0.8522811006747203,
+    "loc": -144.66072535902163,
+    "scale": 347.3555646422928
+  },
+  "GIS_ssp126_pb_2e": {
+    "distribution": "lognorm",
+    "s": 0.6104908899011728,
+    "loc": -146.2766516876698,
+    "scale": 250.61994285017582
+  },
+  "GIS_ssp245_pb_2e": {
+    "distribution": "lognorm",
+    "s": 0.7428821836624012,
+    "loc": -53.68682624037096,
+    "scale": 173.39478381323477
+  },
+  "GIS_ssp585_pb_2e": {
+    "distribution": "lognorm",
+    "s": 0.684424061082798,
+    "loc": -130.0006275516536,
+    "scale": 355.69596151737346
+  },
+  "glaciers_ssp126_pb_2e": {
+    "distribution": "norm",
+    "loc": 95.9693878775897,
+    "scale": 30.733176110270637
+  },
+  "glaciers_ssp245_pb_2e": {
+    "distribution": "norm",
+    "loc": 123.28571423389145,
+    "scale": 37.511898603715075
+  },
+  "glaciers_ssp585_pb_2e": {
+    "distribution": "norm",
+    "loc": 167.28571428506214,
+    "scale": 51.86289061078797
+  },
+  "oceandynamics_ssp126_pb_2e": {
+    "distribution": "norm",
+    "loc": 145.68367352512712,
+    "scale": 34.01041079721151
+  },
+  "oceandynamics_ssp245_pb_2e": {
+    "distribution": "norm",
+    "loc": 201.43877534274205,
+    "scale": 43.2949763373398
+  },
+  "oceandynamics_ssp585_pb_2e": {
+    "distribution": "norm",
+    "loc": 301.775509818872,
+    "scale": 62.77420802023957
+  }
+}

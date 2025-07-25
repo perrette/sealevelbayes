@@ -1,0 +1,26 @@
+#pymc==5.9.2   # installed when conda env is created: conda create -c conda-forge -n pymc_env "pymc=5.9.2"
+#pymc==5.16.1  # version conflicts with conda install
+pymc==5.9.0
+#pymc==5.16.2   # works with python 3.11
+jax==0.5.2
+numpyro==0.17.0
+tqdm
+openpyxl
+statsmodels
+shapely
+fiona
+watermark
+toml
+flatdict
+numpy<2
+pandas
+xarray
+requests
+rapidfuzz
+bottleneck
+h5py==3.9.0  # conflict with netCDF4 1.7.1 ( https://github.com/h5py/h5py/issues/2453 )
+netCDF4==1.6.5
+jupyter-server
+ipympl
+ipython
+ipykernel

@@ -1,0 +1,12 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = git@github.com:pierre-prandi/rsl.git
+	branch = main
+	commit = 994c6bbd7dfacf36313511ceab2b62d8019ff0b9
+	parent = 6a4b150ad85f5b65511273988646f26ea2edb67f
+	method = merge
+	cmdver = 0.4.1
