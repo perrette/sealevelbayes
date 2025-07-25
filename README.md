@@ -137,8 +137,15 @@ constraints (otherwise it would grow too large). Running additional scenarios, o
 driver is augmented with new scenarios. Typically that step is much faster than the actual sampling (a few minutes vs up to 24 hours). 
 To streamling the process of reloading, extending or redefining models and traces,
 see [sealevelbayes.postproc.run.ExperimentTrace](/sealevelbayes/postproc/run.py).
+
+#### Figures
+
 The figures included in the associated manuscript were produced from the [jupyter notebooks](/notebooks) included in this repository.
-They can serve as an entry point for the curious user.
+
+#### Web app
+
+The [web app](https://sealevel.netlify.app) and related [zenodo data](https://doi.org/10.5281/zenodo.15230503) were produced 
+by the [sealevelbayes.postproc.web](sealevelbayes/postproc/web.py) module, which can serve as an entry point for the curious user.
 
 ## License
 
