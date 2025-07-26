@@ -16,25 +16,7 @@ This repository contains the code accompanying the following scientific article:
 
 ## Caveats
 
-The current version of this repository is primarily intended for documentation purpose 
-and is probably challenging to use out-of-the-box for 
-a third person, for reasons outlined below.
-We intend to make it more readily usable over time, and depending on the interest in the community.
-
-The current version underwent an initial cleanup of the original research code. The cleanup is still ongoing 
-to remove experimental dead-ends, i.e. little-used or obsolete parts of the code, and to improve (or add) documentation.
-Despite our efforts and checks to ensure no error are introduced in the process, this cannot be excluded.
-We'll be working actively to fix any issue as they are spotted. 
-
-Some parts of the code included in this repository are not directly related to the cited publication. 
-The code is intended for a wider purpose and will be extended beyond what was initially published.
-
-We have not yet found a satisfactory manner of distributing *all* required data to run the code 
-(see [Data and Materials Availability](#data-and-materials-availability)). The main reason is lack of time to coordinate
-with the helpful colleagues that provided us their data, and potential licensing issues in including data from other sources. 
-There is also the sheer volume of some of the datasets involved. We hope this can be fixed in the future. 
-We already made some steps in that direction with our download tool below, 
-and are considering [more radical approaches](https://snakemake.readthedocs.io/en/stable/).
+In its present form, the repository lacks essential dataset for the code to run out-of-the-box (see [Data and Materials Availability](#data-and-materials-availability)), and serves primarily for documentation purpose. We are working towards making it more directly useful for the community.
 
 ## Quickstart
 
@@ -91,10 +73,10 @@ Once installed, the model can be run with:
 sealevelbayes-run [...]
 ```
 
-and the associated code can be found in the submodule [sealevelbayes.runslr](sealevelbayes/runslr.py). 
+and the associated code can be found in the submodule [sealevelbayes.runslr](sealevelbayes/runslr.py).
 
 The model parameters are defined in [runparams.py](/sealevelbayes/runparams.py) via the python argparse module.
-The default is to run the default experiment in Perrette and Mengel (2025). 
+The default is to run the default experiment in Perrette and Mengel (2025).
 See the [pm2025](/pm2025) folder to run the various sensitivity experiments described in the manuscript.
 
 An overview of all available parameters can be printed via
@@ -105,8 +87,8 @@ A complete documentation is still work in progress.
 
 ### Model parameters input and run ID
 
-Indicating different parameters via 
-the command line will usually result in an automatically generated `run ID`, 
+Indicating different parameters via
+the command line will usually result in an automatically generated `run ID`,
 which is used as name for the output folder.
 
 It is possible to print the runID via
@@ -131,10 +113,10 @@ Also note that if an experiment is interrupted during sampling, it is possible t
 ### Postprocessing
 
 The `pymc` model produces a "trace.nc" file (arviz' Inference data format) with all samples inside. However
-the trace only contains the random variables, observations, and the two SSP scenarios needed to apply the 2100 
-constraints (otherwise it would grow too large). Running additional scenarios, or calculating specific diagnostic requires a re-run with 
+the trace only contains the random variables, observations, and the two SSP scenarios needed to apply the 2100
+constraints (otherwise it would grow too large). Running additional scenarios, or calculating specific diagnostic requires a re-run with
 `pymc.sample_posterior_predictive`, whereby the model is extended with new diagnostics, and the global-mean-temperature
-driver is augmented with new scenarios. Typically that step is much faster than the actual sampling (a few minutes vs up to 24 hours). 
+driver is augmented with new scenarios. Typically that step is much faster than the actual sampling (a few minutes vs up to 24 hours).
 To streamling the process of reloading, extending or redefining models and traces,
 see [sealevelbayes.postproc.run.ExperimentTrace](/sealevelbayes/postproc/run.py).
 
@@ -144,7 +126,7 @@ The figures included in the associated manuscript were produced from the [jupyte
 
 #### Web app
 
-The [web app](https://sealevel.netlify.app) and related [zenodo data](https://doi.org/10.5281/zenodo.15230503) were produced 
+The [web app](https://sealevel.netlify.app) and related [zenodo data](https://doi.org/10.5281/zenodo.15230503) were produced
 by the [sealevelbayes.postproc.web](sealevelbayes/postproc/web.py) module, which can serve as an entry point for the curious user.
 
 ## License
@@ -183,7 +165,7 @@ This work has received funding from:
 
 ## Data and Materials Availability
 
-Third-party data are not included in the repository. 
+Third-party data are not included in the repository.
 They must be downloaded directly from openly available sources as documented in the Methods section of the associated article,
 and by using our [helper tool](#data-download-tool). The following datasets were obtained via personal communication:
 
@@ -191,7 +173,7 @@ and by using our [helper tool](#data-download-tool). The following datasets were
 - The GIA ensemble described in: [Caron et al. (2018), *Geophysical Research Letters*](https://doi.org/10.1002/2017GL076644)
 
 These datasets are essential components required to run our model.
-If you wish to obtain a copy of these data, please contact the corresponding author, or the respective authors directly. 
+If you wish to obtain a copy of these data, please contact the corresponding author, or the respective authors directly.
 
 The data output from the main analysis are available at:
   https://doi.org/10.5281/zenodo.15230503
@@ -224,4 +206,4 @@ The datasets metadata handled by the tool can be found in [datasets.json](pm2025
 
 WARNINGS: some datasets are very large (e.g. the Garner et al. 2021 regional data is 37 GB). You may want to edit [datasets.json](pm2025/datasets.json) to remove it, if not used.
 
-The listing does not include the CMIP6 archive for piControl runs. They are available from the usual ESGF portals.  
+The listing does not include the CMIP6 archive for piControl runs. They are available from the usual ESGF portals.
