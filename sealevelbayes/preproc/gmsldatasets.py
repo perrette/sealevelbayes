@@ -5,8 +5,7 @@ They are made to work with pytensor.
 import numpy as np
 import xarray as xa
 from sealevelbayes.logs import logger
-from sealevelbayes.datasets import get_datapath
-from sealevelbayes.datasets.ar6.supp import open_slr_global
+from sealevelbayes.datasets import require_dataset
 import sealevelbayes.datasets.frederikse2020 as frederikse2020
 from sealevelbayes.datasets.shared import MAP_FRED_NC, MAP_AR6
 
@@ -63,15 +62,15 @@ def get_ar6_samples(source, experiment, years=None, icesheet="ismipemu"):
             icesheets = icesheet
             return _merge_icesheets(source, experiment, years, icesheets)
         else:
-            filename = f"ar6/global/full_sample_components_rates/icesheets-ipccar6-{icesheet}icesheet-{experiment}_{ar6source}_globalsl_rates.nc"
+            filename = f"global/full_sample_components_rates/icesheets-ipccar6-{icesheet}icesheet-{experiment}_{ar6source}_globalsl_rates.nc"
     elif source == "steric":
-        filename = f"ar6/global/full_sample_components_rates/{ar6source}-tlm-{ar6source}-{experiment}_globalsl_rates.nc"
+        filename = f"global/full_sample_components_rates/{ar6source}-tlm-{ar6source}-{experiment}_globalsl_rates.nc"
     elif source == "glacier":
-        filename = f"ar6/global/full_sample_components_rates/{ar6source}-ipccar6-gmipemuglaciers-{experiment}_globalsl_rates.nc"
+        filename = f"global/full_sample_components_rates/{ar6source}-ipccar6-gmipemuglaciers-{experiment}_globalsl_rates.nc"
     else:
-        filename = f"ar6/global/full_sample_components_rates/{ar6source}-ssp-{ar6source}-{experiment}_globalsl_rates.nc"
+        filename = f"global/full_sample_components_rates/{ar6source}-ssp-{ar6source}-{experiment}_globalsl_rates.nc"
 
-    with xa.load_dataset(get_datapath("zenodo-6382554-garner2021") / filename) as ds:
+    with xa.load_dataset(require_dataset("zenodo-6382554-garner2021/ar6") / filename) as ds:
         future_rates = ds["sea_level_change_rate"].sel(years=slice(None, 2100)).squeeze()
 
     return future_rates.years.values, future_rates.values

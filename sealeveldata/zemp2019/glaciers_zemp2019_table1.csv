@@ -1,0 +1,22 @@
+Region (code),Total area (km2),Total volume (km3),Specific mass change (m w.e. yr−1),Mass change (Gt yr−1)
+01 Alaska (ALA),86725,18429,-0.85 ± 0.19,-73 ± 17
+02 Western Canada & USA (WNA),14524,1048,-0.83 ± 0.40,-12 ± 6
+03 Arctic Canada North (ACN),105111,29721,-0.57 ± 0.80,-60 ± 84
+04 Arctic Canada South (ACS),40888,8948,-0.57 ± 0.70,-23 ± 28
+05 Greenland (GRL),89717,15780,-0.63 ± 0.21,-51 ± 17
+06 Iceland (ISL),11060,3520,-0.50 ± 0.37,-5 ± 4
+07 Svalbard and Jan Mayen (SJM),33959,8076,-0.47 ± 0.23,-16 ± 8
+08 Scandinavia (SCA),2949,306,-0.49 ± 0.27,-1 ± 1
+09 Russian Arctic (RUA),51592,15449,-0.47 ± 0.37,-24 ± 19
+10 North Asia (ASN),2410,146,-0.37 ± 0.31,-1 ± 1
+11 Central Europe (CEU),2092,116,-0.87 ± 0.07,-2 ± 0
+12 Caucasus and Middle East (CAU),1307,63,-0.90 ± 0.57,-1 ± 1
+13 Central Asia (ASC),49303,3483,-0.15 ± 0.12,-7 ± 6
+14 South Asia West (ASW),33568,3092,-0.03 ± 0.12,-1 ± 4
+15 South Asia East (ASE),14734,906,-0.35 ± 0.12,-5 ± 2
+16 Low Latitudes (TRP),2341,80,-1.03 ± 0.83,-2 ± 2
+17 Southern Andes (SAN),29429,5518,-1.18 ± 0.38,-34 ± 11
+18 New Zealand (NZL),1162,61,-0.68 ± 1.15,-1 ± 1
+19 Antarctic and Subantarctic (ANT),132867,46801,-0.11 ± 0.87,-14 ± 108
+"Total, excl. GRL and ANT",483155,98962,-0.55 ± 0.04,-267 ± 19
+Global total,705739,161543,-0.47 ± 0.20,-332 ± 144

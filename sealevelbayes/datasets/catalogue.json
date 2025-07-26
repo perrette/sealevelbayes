@@ -121,6 +121,16 @@
       "info": "https://zenodo.org/records/3557199"
     },
     {
+      "name": "zemp2019/glaciers_zemp2019_table1.csv",
+      "info": "Table 1 in Zemp et al (2019). Numerized by M. Perrette",
+      "doi": "10.1038/s41586-019-1071-0",
+      "citations": ["Zemp, M., Huss, M., Thibert, E. et al. Global glacier mass changes and their contributions to sea-level rise from 1961 to 2016. Nature 568, 382–386 (2019). https://doi.org/10.1038/s41586-019-1071-0"]
+    },
+    {
+      "name": "ar6_wg1/chap9/glaciers_ar6_table_9_sm_2.csv",
+      "info": "Table 9.SM.2 IPCC AR6. Numerized by M. Perrette"
+    },
+    {
       "name": "nsidc0770_rgi_v7/global_files/RGI2000-v7.0-G-global",
       "url": "https://daacdata.apps.nsidc.org/pub/DATASETS/nsidc0770_rgi_v7/global_files/RGI2000-v7.0-G-global.zip",
       "wget_args": "--load-cookies ~/.urs_cookies --save-cookies ~/.urs_cookies --keep-session-cookies --no-check-certificate --auth-no-challenge=on --reject \"index.html*\" -np -e robots=off",
@@ -179,6 +189,7 @@
       "url": [
         "https://dap.ceda.ac.uk/badc/ar6_wg1/data/spm/spm_08/v20210809/panel_a/tas_global_Historical.csv?download=1",
         "https://dap.ceda.ac.uk/badc/ar6_wg1/data/spm/spm_08/v20210809/panel_a/tas_global_SSP1_1_9.csv?download=1",
+        "https://dap.ceda.ac.uk/badc/ar6_wg1/data/spm/spm_08/v20210809/panel_a/tas_global_SSP1_2_6.csv?download=1",
         "https://dap.ceda.ac.uk/badc/ar6_wg1/data/spm/spm_08/v20210809/panel_a/tas_global_SSP2_4_5.csv?download=1",
         "https://dap.ceda.ac.uk/badc/ar6_wg1/data/spm/spm_08/v20210809/panel_a/tas_global_SSP3_7_0.csv?download=1",
         "https://dap.ceda.ac.uk/badc/ar6_wg1/data/spm/spm_08/v20210809/panel_a/tas_global_SSP5_8_5.csv?download=1"

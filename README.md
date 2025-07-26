@@ -16,9 +16,6 @@ This repository contains the code accompanying the following scientific article:
 
 **Teaser**: *Local sea level rise projections consistent with historical data improve coastal impact assessment and adaptation planning.*
 
-## Caveats
-
-In its present form, the repository lacks essential dataset for the code to run out-of-the-box (see [Data and Materials Availability](#data-and-materials-availability)), and serves primarily for documentation purpose. We are working towards making it more directly useful for the community.
 
 ## Quickstart
 
@@ -77,6 +74,12 @@ sealevelbayes-run [...]
 
 and the associated code can be found in the submodule [sealevelbayes.runslr](sealevelbayes/runslr.py).
 
+The global-only version should work out of the box:
+```bash
+sealevelbayes-run --global-slr-only
+```
+(work is in progress to provide all data for local SLR as well)
+
 The model parameters are defined in [runparams.py](/sealevelbayes/runparams.py) via the python argparse module.
 The default is to run the default experiment in Perrette and Mengel (2025).
 See the [pm2025](/pm2025) folder to run the various sensitivity experiments described in the manuscript.
@@ -84,10 +87,6 @@ See the [pm2025](/pm2025) folder to run the various sensitivity experiments desc
 An overview of all available parameters can be printed via
 
     sealevelbayes-run --help
-
-Or for a light-weight version that does not import module dependencies:
-
-    sealevelbayes-runid --print-help
 
 A complete documentation is still work in progress.
 
@@ -171,14 +170,15 @@ This work has received funding from:
 
 ## Data and Materials Availability
 
-Third-party data are not included in the repository.
-They must be downloaded directly from openly available sources as documented in the Methods section of the associated article,
-and by using our [helper tool](#data-download-tool). The following datasets were obtained via personal communication:
+Third-party data are generally not included in the repository.
+They must be downloaded directly from openly available sources as documented in the Methods section of the associated article.
+To make that task easier, all datasets are listed in the machine-readable [catalogue.json](/sealevelbayes/datasets/catalogue.json), which can be used with our [helper tool](#data-download-tool).
+The global datasets are downloaded "on-demand", so that `sealevelbayes-run --global-slr-only` works out of the box. The following datasets were obtained via personal communication:
 
 - Glacier fingerprints shared by Thomas Frederikse, used in his work in: [Frederikse et al. (2020), *Nature*](https://www.nature.com/articles/s41586-020-2591-3)
 - The GIA ensemble described in: [Caron et al. (2018), *Geophysical Research Letters*](https://doi.org/10.1002/2017GL076644)
 
-These datasets are essential components required to run our model.
+These datasets are essential components required to run our local model.
 If you wish to obtain a copy of these data, please contact the corresponding author, or the respective authors directly.
 
 The data output from the main analysis are available at:
@@ -192,7 +192,7 @@ An interactive visualization of sea-level estimates at tide gauge stations, base
 
 An helper tool is provided to download many of the openly available datasets.
 They can be listed and downloaded via the `sealevelbayes-download` script,
-which is an alias for `python -m sealevelbayes.datasets.manager`, e.g.
+which reads a [catalogue.json](/sealevelbayes/datasets/catalogue.json) file.
 
 ```bash
 sealevelbayes-download --ls
@@ -204,12 +204,11 @@ Examples:
     sealevelbayes-download --print
     sealevelbayes-download --name church_white_gmsl_2011_up naturalearth/ne_110m_coastline
     sealevelbayes-download --name psmsl*
-    sealevelbayes-download --json  # a custom selection of datasets for basic use of the package without recalibration
     sealevelbayes-download --all
 ```
 
-The datasets metadata handled by the tool can be found in [datasets.json](pm2025/datasets.json).
+The datasets required for the global SLR model are downloaded on-demand in the code, via the [require_dataset](sealevelbayes/datasets/manager.py) function.
 
-WARNINGS: some datasets are very large (e.g. the Garner et al. 2021 regional data is 37 GB). You may want to edit [datasets.json](pm2025/datasets.json) to remove it, if not used.
+WARNINGS: some datasets are very large (e.g. the Garner et al. 2021 regional data is 37 GB). So make sure you have enough available space before using the `--all` option.
 
 The listing does not include the CMIP6 archive for piControl runs. They are available from the usual ESGF portals.

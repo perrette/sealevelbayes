@@ -124,11 +124,11 @@ def create_merged_temperature_df():
 
     df = pd.DataFrame({
         "year":years,
-        "ssp19":merged_with_past(tas_ar6_19[:,1]),
-        "ssp26":merged_with_past(tas_ar6_26[:,1]),
-        "ssp45":merged_with_past(tas_ar6_45[:,1]),
-        "ssp70":merged_with_past(tas_ar6_70[:,1]),
-        "ssp85":merged_with_past(tas_ar6_85[:,1]),
+        "ssp119":merged_with_past(tas_ar6_19[:,1]),
+        "ssp126":merged_with_past(tas_ar6_26[:,1]),
+        "ssp245":merged_with_past(tas_ar6_45[:,1]),
+        "ssp370":merged_with_past(tas_ar6_70[:,1]),
+        "ssp585":merged_with_past(tas_ar6_85[:,1]),
         }).set_index("year")
 
     return df

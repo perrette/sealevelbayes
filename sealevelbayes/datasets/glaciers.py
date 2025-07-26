@@ -9,13 +9,8 @@ from sealevelbayes.cache import cached
 from sealevelbayes.datasets.ar6.tables import ar6_table_9_5
 from sealevelbayes.datasets.climate import load_temperature
 from sealevelbayes.datasets.cmip5 import read_cmip5_tglobal_df
-# from sealevelbayes.datasets.zemp2019 import load_zemp
-# from sealevelbayes.datasets.marzeion import (
 
-import sealevelbayes.datasets.ar6 as ar6
-from sealevelbayes.datasets.constants import (
-    ice_density, ocean_surface_km2,
-    km3_to_m3, m3_to_kg, kg_to_gt, kg_to_mm_sle, gt_to_mm_sle, km3_to_gt, km3_to_mm_sle)
+from sealevelbayes.datasets.constants import kg_to_mm_sle, gt_to_mm_sle, km3_to_mm_sle
 
 
 DATAPATH = get_datapath("")
@@ -28,7 +23,7 @@ def parse_ar6_region(region):
 
 def get_ar6_table9sm2(drop_hma=False):
     """Load AR6 Table 9.SM.2"""
-    ar6_table9sm2 = pd.read_csv(f"{ar6.__path__[0]}/glaciers_ar6_table_9_sm_2.csv")
+    ar6_table9sm2 = pd.read_csv(get_datapath("ar6_wg1/chap9/glaciers_ar6_table_9_sm_2.csv"))
     ar6_table9sm2.columns = [c.strip() for c in ar6_table9sm2.columns]
     ar6_table9sm2.index = [parse_ar6_region(r)[1] for r in ar6_table9sm2["Region"][:-1]]
     if drop_hma:
@@ -38,7 +33,7 @@ def get_ar6_table9sm2(drop_hma=False):
 
 
 def load_zemp(region_number):
-    fname = list(get_datapath("zenodo-3557199-zemp2019").glob(f"Zemp_etal_results_region_{region_number}_*.csv"))[0]
+    fname = list(require_dataset("zenodo-3557199-zemp2019").glob(f"Zemp_etal_results_region_{region_number}_*.csv"))[0]
     return pd.read_csv(fname, skipinitialspace=True, comment='#')
 
 
@@ -46,7 +41,7 @@ def load_zemp(region_number):
 def load_glacier_datasets():
 
 
-    ar6_table9sm2 = pd.read_csv(f"{ar6.__path__[0]}/glaciers_ar6_table_9_sm_2.csv")
+    ar6_table9sm2 = pd.read_csv(get_datapath("ar6_wg1/chap9/glaciers_ar6_table_9_sm_2.csv"))
     ar6_table9sm2.columns = [c.strip() for c in ar6_table9sm2.columns]
     ar6_region_map = {parse_ar6_region(r)[1]: r for r in ar6_table9sm2["Region"][:-1]}
 

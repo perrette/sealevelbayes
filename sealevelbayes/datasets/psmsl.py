@@ -64,7 +64,7 @@ def load_rlr(id, **kw):
 
 def load_all_psmsl_rlr():
 
-    filepath = get_datapath('psmsl_timeseries_full.csv')
+    filepath = get_datapath('savedwork/psmsl_timeseries_full.csv')
     if filepath.exists():
         logger.debug(f'Read from {filepath}')
         df = pd.read_csv(filepath, skipinitialspace=True).set_index('year')
