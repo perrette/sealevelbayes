@@ -1039,7 +1039,7 @@ def parse_args(cmd=None, parser=None, options={}):
 
     # first check for presets
     import argparse
-    preset_parser = argparse.ArgumentParser(parents=[preparser])
+    preset_parser = argparse.ArgumentParser(parents=[preparser], add_help=False)
     opres, _ = preset_parser.parse_known_args(cmd)
 
     opres.preset = options.pop("preset", opres.preset) # options has priority (manual debugging)
