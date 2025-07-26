@@ -1079,6 +1079,7 @@ def main(cmd=None, **options):
     preparser.add_argument('--no-static', action='store_false', dest="static", help="actually import the modules instead of the static code analysis to get some defaults (now the main code uses `static` too for consistency)")  # static mode
     preparser.add_argument('--query', required=False, help="name of the parameter to get the run ID for (if not provided, all parameters are used)")
     preparser.add_argument('--print-config', action='store_true', help="print the full config file")
+    preparser.add_argument('--print-help', action='store_true', help="print the full help for the model parameters")
     # preparser.add_argument('--static', action='store_true', help="static code analysis for faster crunching of the run ID (otherwise import the modules)")  # static mode
     preargs, remainder = preparser.parse_known_args(cmd)
     preargs.otherargs = remainder  # store the rest of the arguments for the main parser
@@ -1086,6 +1087,10 @@ def main(cmd=None, **options):
     parser = get_parser(static=preargs.static)
     # parser = get_parser()
     args = parse_args(preargs.otherargs, parser, options)
+
+    if preargs.print_help:
+        parser.print_help()
+        return 0
 
     if preargs.print_config:
         import json

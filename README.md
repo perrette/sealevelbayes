@@ -85,6 +85,10 @@ An overview of all available parameters can be printed via
 
     sealevelbayes-run --help
 
+Or for a light-weight version that does not import module dependencies:
+
+    sealevelbayes-runid --print-help
+
 A complete documentation is still work in progress.
 
 ### Model parameters input and run ID
