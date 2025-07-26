@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/1026316112.svg)](https://doi.org/10.5281/zenodo.16440998)
+
 # SeaLevelBayes
 
 **Bayesian projections of future relative sea level rise tied to historical observations**
