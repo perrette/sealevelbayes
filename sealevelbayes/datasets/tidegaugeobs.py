@@ -2,10 +2,7 @@
 
 Use CMIP6 models to estimate the background, low-frequency "noise" in tide-gauge trends (instead of current AR1 noise esimate that represents higher frequency variability within the time period of the tide-gauge record). More specifically, at each tide gauge location, a linear trend would be calculated within a time-window with the same length and same missing values as the actual tide-gauge record. The window can then shifted by one year, so that the trend can be calculated n-t+1 times, where n is the length of the pre-industrial control run, and t is the tide-gauge length. If the pre-industrial control run is detrended, the resulting mean will be zero, and the standard deviation would be indicative of the kind of error we make by comparing our fingerprint-derived, flat trend, with actual tide-gauge records with low-freq natural variability. The operation is of course repeated for each GCM, i.e. 56 times, to get a robust estimate for that standard deviation. The technique also provides covariance between various tide-gauge locations, which reflects the patterns in which water moves around in the world oceans. That can be used later on when we come to estimate various tide-gauges simultaneously.
 """
-
-import itertools
-import copy
-from pathlib import Path
+import json
 import tqdm
 import numpy as np
 import xarray as xa
@@ -17,8 +14,7 @@ from sealevelbayes.logs import logger
 from sealevelbayes.datasets.manager import get_datapath
 from sealevelbayes.datasets.maptools import MaskedGrid
 import sealevelbayes.datasets.frederikse2020 as frederikse2020
-from sealevelbayes.datasets.psmsl import load_rlr, is_rlr, load_filelist_rlr, load_filelist_all, load_all_psmsl_rlr
-from sealevelbayes.datasets.shared import MAP_FRED, MAP_FRED_NC, MAP_AR6
+from sealevelbayes.datasets.psmsl import is_rlr, load_filelist_rlr, load_filelist_all, load_all_psmsl_rlr
 from sealevelbayes.datasets.basins import ThompsonBasins
 from sealevelbayes.preproc.tides import nodal_tide_scaled
 from sealevelbayes.preproc.linalg import detrend_timeseries
@@ -28,13 +24,7 @@ from sealevelbayes.preproc.inversebarometer import load_ib
 # DEFAULT_VERSION = "frederikse"
 DEFAULT_VERSION = "psmsl_rlr_1900_2018_subset"
 
-
-def load_tidegauges_frederikse():
-    tg_years = np.arange(1900, 1900+119)
-    tg = np.load(get_datapath("Budget_20c/tg/station_data.npy"), allow_pickle=True).item()
-    return tg_years, tg
-
-
+hogarth_stations = np.array(json.load(open(get_datapath("Budget_20c/tg/hogarth_stations.json"))))
 
 # load data in the global scope of this module
 region_info = frederikse2020.region_info
@@ -42,11 +32,10 @@ region_info = frederikse2020.region_info
 # lats = region_info["Latitude"]
 # lons = np.where(lons < 180, lons, lons-360) # lon as[-180, 180] ??
 
-tg_frederikse_years, tg_frederikse = load_tidegauges_frederikse()
-
 psmsl_filelist_rlr = load_filelist_rlr()
 psmsl_filelist_all = load_filelist_all()
 psmsl_rlr = load_all_psmsl_rlr()
+
 
 
 def _make_hogart_like(psmsl_rlr, rlr=True):
@@ -62,10 +51,24 @@ tg_psmsl_rlr_1900_2018_years = np.arange(1900, 2018+1)
 tg_psmsl_rlr_1900_2018 = _make_hogart_like(psmsl_rlr.loc[1900:2018])
 
 tg_psmsl_rlr_1900_2018_subset_years = np.arange(1900, 2018+1)
-tg_psmsl_rlr_1900_2018_subset = _make_hogart_like(psmsl_rlr[[id for id in psmsl_rlr.columns if id in set(tg_frederikse['id'])]].loc[1900:2018])
+tg_psmsl_rlr_1900_2018_subset = _make_hogart_like(psmsl_rlr[[id for id in psmsl_rlr.columns if id in set(hogarth_stations)]].loc[1900:2018])
 
 tg_psmsl_rlr_1900_2022_years = np.arange(1900, 2022+1)
 tg_psmsl_rlr_1900_2022 = _make_hogart_like(psmsl_rlr.loc[1900:2022])
+
+
+def load_tidegauges_frederikse():
+    tg_years = np.arange(1900, 1900+119)
+    tg = np.load(get_datapath("Budget_20c/tg/station_data.npy"), allow_pickle=True).item()
+    return tg_years, tg
+
+
+try:
+    tg_frederikse_years, tg_frederikse = load_tidegauges_frederikse()
+except FileNotFoundError:
+    logger.warning("Could not load tide-gauge records from Frederikse et al. 2020. Use equivalent PSMSL data instead.")
+    tg_frederikse_years = tg_psmsl_rlr_1900_2018_subset_years
+    tg_frederikse = tg_psmsl_rlr_1900_2018_subset
 
 
 if DEFAULT_VERSION == "frederikse":
@@ -107,7 +110,7 @@ def load_tidegauge_records(psmsl_ids, remove_meteo=True, remove_nodal=True, clas
 
     if version == "frederikse":
         tg = tg_frederikse
-        idx = _get_matching_indices(tg_frederikse['id'], psmsl_ids)
+        idx = _get_matching_indices(hogarth_stations, psmsl_ids)
         # tg_values = (tg['height'] + tg['height_nodal'])[idx]
         tg_values = tg['height'][idx]
         tg_years = tg_frederikse_years
@@ -139,7 +142,7 @@ def load_tidegauge_records(psmsl_ids, remove_meteo=True, remove_nodal=True, clas
     logger.info(f"Load tide-gauge records for {version}. Min number of years: {min_years}")
 
     if (remove_nodal and not classical_formula_for_tides) or (remove_meteo and wind_correction):
-        idx_fred = _get_matching_indices(tg_frederikse['id'], psmsl_ids)
+        idx_fred = _get_matching_indices(hogarth_stations, psmsl_ids)
 
         if remove_nodal and not classical_formula_for_tides:
             logger.info(f"...remove nodal tide from Frederikse et al dataset")
@@ -180,7 +183,7 @@ def load_tidegauge_records(psmsl_ids, remove_meteo=True, remove_nodal=True, clas
 
 
 stations = region_info.to_dict('records')
-psmsl_map = dict(zip(tg_frederikse['id'], np.arange(tg_frederikse['id'].size)))
+psmsl_map = dict(zip(hogarth_stations, np.arange(hogarth_stations.size)))
 
 def decluster_stations(stations=stations, remove_duplicates=True):
     declustered = [{**station, 'PSMSL IDs': psmsl, 'Station names': name,
@@ -192,7 +195,7 @@ def decluster_stations(stations=stations, remove_duplicates=True):
     # remove duplicate
     return sorted({r["PSMSL IDs"]:r for r in declustered}.values(), key=lambda r: int(r["PSMSL IDs"]))
 
-_indices = tg_frederikse['id'].tolist()
+_indices = hogarth_stations.tolist()
 
 def _valid_years(r):
     return np.isfinite(tg_frederikse['height'][_indices.index(int(r['PSMSL IDs']))]).sum()
@@ -257,7 +260,7 @@ def _get_station_ids(min_years=None, flagged=False, metric=False, included_in_fr
         `included_in_frederikse=True, flagged=True, metric=True, from_year=1900, to_year=2018, source="frederikse"`
     """
     if included_in_frederikse:
-        psmsl_ids = set(tg_frederikse['id'])
+        psmsl_ids = set(hogarth_stations)
     else:
         psmsl_ids = set(psmsl_filelist_all['ID'])
 
@@ -271,7 +274,7 @@ def _get_station_ids(min_years=None, flagged=False, metric=False, included_in_fr
     # more than 20 years of data
     if min_years:
         if mask_from_extended_dataset:
-            df = pd.DataFrame(tg_frederikse['height'].T, index=tg_frederikse_years, columns=tg_frederikse['id'])
+            df = pd.DataFrame(tg_frederikse['height'].T, index=tg_frederikse_years, columns=hogarth_stations)
         else:
             df = psmsl_rlr
 

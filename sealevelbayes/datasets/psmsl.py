@@ -3,7 +3,7 @@
 import numpy as np
 import pandas as pd
 from sealevelbayes.config import logger
-from sealevelbayes.datasets.manager import get_datapath
+from sealevelbayes.datasets.manager import get_datapath, require_dataset_by_name
 from sealevelbayes.datasets.catalogue import download_met_monthly, download_rlr_monthly, download_rlr_annual
 
 psmslroot = get_datapath('psmsl')
@@ -33,12 +33,14 @@ def is_rlr(id):
 
 
 def load_filelist_rlr():
+    require_dataset_by_name("psmsl/rlr_annual")
     df = pd.read_csv(annual / "filelist.txt", sep=";", header=None, skipinitialspace=True)
     df.columns = ["ID", "latitude", "longitude", "station name", "coastline code", "station code", "qcflag"]
     df['station name'] = df['station name'].str.strip()
     return df
 
 def load_filelist_all():
+    require_dataset_by_name("psmsl/met_monthly")
     df = pd.read_csv(metric_monthly / "filelist.txt", sep=";", header=None, skipinitialspace=True)
     df.columns = ["ID", "latitude", "longitude", "station name", "coastline code", "station code", "qcflag"]
     df['station name'] = df['station name'].str.strip()
@@ -53,11 +55,11 @@ def load_rlr(id, **kw):
     return _load_rlr(path, name=id, **kw)
 
 
-def fetch_rlr(id, **kw):
-    url = f"https://psmsl.org/data/obtaining/rlr.annual.data/{id}.rlrdata"
-    with urllib.request.urlopen(url) as response:
-       urlData = response.read()
-    return _load_rlr(io.StringIO(urlData.decode()), name=id)
+# def fetch_rlr(id, **kw):
+#     url = f"https://psmsl.org/data/obtaining/rlr.annual.data/{id}.rlrdata"
+#     with urllib.request.urlopen(url) as response:
+#        urlData = response.read()
+#     return _load_rlr(io.StringIO(urlData.decode()), name=id)
 
 
 

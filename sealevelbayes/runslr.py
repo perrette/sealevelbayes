@@ -22,7 +22,6 @@ from sealevelbayes.datasets.tidegaugeobs import load_tidegauge_records
 from sealevelbayes.datasets.ar6.misc import load_temperature
 from sealevelbayes.datasets.glaciers import load_zemp, gt_to_mm_sle, MM21_FORCING, open_mm21, get_rate2000_ar6, draw_past_glacier_samples
 from sealevelbayes.datasets.frederikse2020 import sample_greenland_dataset
-from sealevelbayes.datasets.basins import ThompsonBasins
 
 from sealevelbayes.models.domain import get_station_ids
 from sealevelbayes.models.domain import get_stations_from_psmsl_ids, get_stations_from_coords, get_stations_from_grid, get_stations_from_ids
@@ -41,9 +40,9 @@ from sealevelbayes.models.generic import DeferredDist
 from sealevelbayes.preproc.oceancovariance import CMIP6Sampler, MeanSampler, SatelliteAR1Sampler, SatelliteEOFAR1Sampler
 from sealevelbayes.preproc.tidegaugeerror import estimate_tidegauge_error, get_tidegauge_to_satellite_residual_ratio
 
-from sealevelbayes.runparams import (_source_short, _source_long, _get_param, get_watermark, get_parser, parse_args, get_runid)
+from sealevelbayes.runparams import (_source_short, _source_long, _get_param, get_watermark, get_parser, parse_args, get_runid,
+                                     BASINS_MAP)
 
-BASINS = ThompsonBasins.load().split_atlantic()
 
 def get_glacier_constraints(o):
     # get glacier constraints for 2100
@@ -604,6 +603,8 @@ def update_stations_constraints_flags(o, stations):
                 psmsl_sites[i][obs] = False
 
     if o.leave_out_tidegauge_basin_id:
+        from sealevelbayes.datasets.basins import ThompsonBasins
+        BASINS = ThompsonBasins.load().split_atlantic()
         for s in psmsl_sites:
             if BASINS.get_region(s['Longitude'], s['Latitude']) in o.leave_out_tidegauge_basin_id:
                 for obs in o.leave_out_obs_type:
@@ -852,7 +853,7 @@ def update_options(o):
             logger.info(f"Keep all scaling patterns despite ISIMIP mode")
 
     if o.leave_out_tidegauge_basin:
-        inv_map = {v:k for k,v in BASINS.map.items()}
+        inv_map = {v:k for k,v in BASINS_MAP.items()}
         o.leave_out_tidegauge_basin_id = [inv_map[id] for id in o.leave_out_tidegauge_basin]
 
     if o.static_glacier:

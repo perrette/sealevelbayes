@@ -367,7 +367,7 @@ def main():
 
     if o.print:
         dataset_by_name = {r['name']: r for r in DATASET_REGISTER['records']}
-        datasets_to_print = [dataset_by_name[name] for name in o.name if name in dataset_by_name]
+        datasets_to_print = { "records" : [dataset_by_name[name] for name in o.name if name in dataset_by_name] }
         bad_names = [name for name in o.name if name not in dataset_by_name]
         if bad_names:
             logger.warning(f"Dataset names {' '.join(bad_names)} not found in the register. Available datasets are {' '.join(all_datasets)}")

@@ -17,10 +17,11 @@
 : "${WEBQOS:="--mem=64G --qos short"}"
 : "${ZENQOS:="--qos priority"}"
 
-: "${VENV:=/p/projects/isipedia/perrette/sealevel/slr-tidegauges-future/.venv-pymc59-py311}"
+: "${VENV:=$($VENV/bin/sealevelbayes-config virtualenv)}"
 : "${REF:=$($VENV/bin/sealevelbayes-config version)}"
 : "${RUNDIR:=$($VENV/bin/sealevelbayes-config rundir)}"
 : "${WWW:=$($VENV/bin/sealevelbayes-config webdir)}"
+: "${COMPILEDIR:=$($VENV/bin/sealevelbayes-config compiledir)}"
 
 # the flags below should be set individually for the various run commands
 # the default is for runbundle
@@ -65,7 +66,6 @@ function runcmd() {
 
     # Auto-incrementing compiledir
     counter=$((counter + 1))
-    COMPILEDIR="/p/tmp/perrette/pytensor/$counter"
 
     # Log file structure: jobs/2025w13.log
     local jobfile="jobs/$(date +%-Yw%-V).log"
@@ -77,7 +77,7 @@ function runcmd() {
 
     if [[ $INTERACTIVE == 1 ]] ; then
         echo "Running interactively: $cmd"
-        PYTENSOR_FLAGS="base_compiledir=$COMPILEDIR" \
+        PYTENSOR_FLAGS="base_compiledir=$COMPILEDIR/$counter" \
         eval "$cmd"
         return
     fi

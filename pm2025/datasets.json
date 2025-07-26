@@ -1,4 +1,4 @@
-[
+{ "records" : [
   {
     "name": "gistemp/tabledata_v4/GLB.Ts+dSST.csv",
     "url": "https://data.giss.nasa.gov/gistemp/tabledata_v4/GLB.Ts+dSST.csv",
@@ -165,3 +165,4 @@
     "url": "https://store.pangaea.de/Publications/MarzeionB-etal_2020/suppl_GlacierMIP_results.nc"
   }
 ]
+}

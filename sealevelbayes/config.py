@@ -1,4 +1,5 @@
 import os
+import sys
 import argparse
 import subprocess as sp
 from pathlib import Path
@@ -32,8 +33,11 @@ def get_webpath(experiment=""):
 def get_url(experiment=""):
     from urllib.parse import urljoin
     HOME = os.getenv("HOME")
-    relpath = str(get_webpath().relative_to(f"{HOME}/www/"))
-    rooturldef = urljoin("https://www.pik-potsdam.de/~perrette/slr-tidegauges/", relpath)
+    try:
+        relpath = str(get_webpath().relative_to(f"{HOME}/www/"))
+        rooturldef = urljoin("https://www.pik-potsdam.de/~perrette/slr-tidegauges/", relpath)
+    except:
+        rooturldef = "file://"+str(get_webpath().resolve())
     return urljoin(CONFIG.get('url', rooturldef), experiment)
 
 def get_sharedpath(relpath=""):
@@ -96,14 +100,15 @@ def print_experiment_info(runid, backend=None, **kwargs):
 
 
 _REPODIR = Path(sealevelbayes.__file__).parent.parent  # this makes sense for editable pip install, otherwise less so
-_DATADIRLFS = _REPODIR / "sealeveldata"  # this is valid even for non-editable pip-installed version
 
 def detect_app_config():
     """define default paths (this will be updated by the config file, if any is found / provided)
     """
     appconfig = {
+        "compiledir": str(Path(os.getenv("XDG_CACHE_HOME", os.path.join(os.getenv("HOME"), ".cache"))) / sealevelbayes.__name__ / "pytensor"),
+        "virtualenv": sys.prefix,
         "downloaddir": str(CACHE_FOLDER / "download"),
-        "datadir": str(_DATADIRLFS),
+        "datadir": str(Path(os.getenv("XDG_CACHE_HOME", os.path.join(os.getenv("HOME"), ".cache"))) / sealevelbayes.__name__ / "data"),
         "rundir": str(_REPODIR / "runs"),
         "isimipdir": "/p/projects/isimip/isimip",
     }

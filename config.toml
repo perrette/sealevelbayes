@@ -1,6 +1,9 @@
-rundir = "/p/tmp/perrette/runs"
-webdir = "/home/perrette/www/slr-tidegauges"
-version = "v0.3.4"  # for zenodo
+rundir = "runs"
+webdir = "www"
+# virtualenv = ".venv"
+# compiledir = "~/.cache/sealevelbayes/pytensor"
+datadir = "sealeveldata"
+version = "v0.3.4"  # for zenodo and some scripts
 default_experiment = "v0.3.4/run_v0.3.4"
 experiments = [
     "v0.3.4/run_v0.3.4",

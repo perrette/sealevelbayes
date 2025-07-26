@@ -17,6 +17,7 @@ root = get_datapath("zenodo-3862995-frederikse2020")
 PERSONALCOM = get_datapath("frederikse2020-personal-comm")
 
 def load_region_info():
+    require_frederikse()
     sheets = ["Subpolar North Atlantic", "Indian Ocean - South Pacific", "Subtropical North Atlantic",
               "East Pacific", "South Atlantic", "Northwest Pacific"]
 
