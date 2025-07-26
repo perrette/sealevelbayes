@@ -194,17 +194,15 @@ An helper tool is provided to download many of the openly available datasets.
 They can be listed and downloaded via the `sealevelbayes-download` script,
 which reads a [catalogue.json](/sealevelbayes/datasets/catalogue.json) file.
 
-```bash
-sealevelbayes-download --ls
-```
-
 Examples:
 
 ```bash
-    sealevelbayes-download --print
-    sealevelbayes-download --name church_white_gmsl_2011_up naturalearth/ne_110m_coastline
-    sealevelbayes-download --name psmsl*
-    sealevelbayes-download --all
+sealevelbayes-download church_white_gmsl_2011_up naturalearth/ne_110m_coastline
+sealevelbayes-download --ls --global
+sealevelbayes-download --ls
+sealevelbayes-download --global
+sealevelbayes-download --all
+sealevelbayes-download *garner* --print
 ```
 
 The datasets required for the global SLR model are downloaded on-demand in the code, via the [require_dataset](sealevelbayes/datasets/manager.py) function.

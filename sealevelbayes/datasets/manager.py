@@ -350,21 +350,55 @@ def main():
 
     all_datasets = [r['name'] for r in DATASET_REGISTER['records']]
 
+    global_datasets = [
+        'ar6_wg1/spm_08/v20210809/panel_a/tas_global_Historical.csv',
+        'ar6_wg1/spm_08/v20210809/panel_a/tas_global_SSP1_1_9.csv',
+        'ar6_wg1/spm_08/v20210809/panel_a/tas_global_SSP1_2_6.csv',
+        'ar6_wg1/spm_08/v20210809/panel_a/tas_global_SSP2_4_5.csv',
+        'ar6_wg1/spm_08/v20210809/panel_a/tas_global_SSP3_7_0.csv',
+        'ar6_wg1/spm_08/v20210809/panel_a/tas_global_SSP5_8_5.csv',
+        'hugonnet2021/41586_2021_3436_MOESM2_ESM.xlsx',
+        'marzeionmalles2021/suppl_reconstruction_data_region.nc',
+        'nsidc0770_rgi_v7/global_files/RGI2000-v7.0-G-global',
+        'pangaea-MarzeionB-etal_2020/suppl_GlacierMIP_results.nc',
+        'psmsl/met_monthly',
+        'psmsl/rlr_annual',
+        'zenodo-3557199-zemp2019',
+        'zenodo-6382554-garner2021/ar6',
+        'zenodo-6496232-AR6-WG3-plots/spm-box1-fig1-warming-data.csv',
+        'zenodo-7492152-hock2023']
+
     parser = argparse.ArgumentParser(__name__, parents=[config_parser, log_parser])
-    e = parser.add_mutually_exclusive_group()
-    e.add_argument("--name", nargs='+', default=[], help="List of dataset names to be downloaded. Wildcard are allowed.")
-    e.add_argument("--json", action='store_true', help=f"Download datasets from json file (custom selection of datasets).")
-    parser.add_argument("--json-files", nargs='+', default=[get_datapath('datasets.json')], help='specify alternative json file(s)')
+    parser.add_argument("name", nargs='*', default=[], help="List of dataset names to be downloaded. Wildcard are allowed.")
+    parser.add_argument("--json-files", nargs='+', help='specify alternative json file(s)')
     parser.add_argument("--ls", action="store_true", help='show all available datasets')
     parser.add_argument("--ls-local", action="store_true", help='list locally available datasets (datasets that have already been downloaded)')
     parser.add_argument("--ls-missing", action="store_true", help='list locally unavailable datasets (datasets that have not been downloaded)')
     parser.add_argument("--all", action='store_true', help='download all available datasets')
+    parser.add_argument("--all-global", "--global", action='store_true', help='download all available global datasets')
     parser.add_argument("--force", action='store_true', help='Extract downloaded files anew, but re-use download cache')
     parser.add_argument("--ignore-cache", action='store_true', help='Ignore download cache to effectively download anew (to be used together with --force)')
     parser.add_argument("--print", action='store_true', help='Show dataset specification (name, url, etc.)')
 
     o = parser.parse_args()
     setup_logger(o)
+
+    # use a custom dataset file
+    if o.json_files:
+        records = []
+        for jsfile in o.json_files:
+            js = json.load(open(jsfile))
+            records.extend(js["records"])
+        DATASET_REGISTER['records'] = records
+
+    if o.all_global:
+        records = [record for record in DATASET_REGISTER['records'] if record['name'] in global_datasets]
+        DATASET_REGISTER['records'] = records # to combine with --ls
+        o.name = [record['name'] for record in records]
+
+    if o.all:
+        o.name = all_datasets
+
 
     if o.ls:
         print_all_datasets()
@@ -378,13 +412,12 @@ def main():
         print_missing_datasets()
         return
 
-    if o.all:
-        o.name = all_datasets
 
     if o.print:
         dataset_by_name = {r['name']: r for r in DATASET_REGISTER['records']}
-        datasets_to_print = { "records" : [dataset_by_name[name] for name in o.name if name in dataset_by_name] }
-        bad_names = [name for name in o.name if name not in dataset_by_name]
+        expanded_names = expand_names(o.name)
+        datasets_to_print = { "records" : [dataset_by_name[name] for name in expanded_names if name in dataset_by_name] }
+        bad_names = [name for name in expanded_names if name not in dataset_by_name]
         if bad_names:
             logger.warning(f"Dataset names {' '.join(bad_names)} not found in the register. Available datasets are {' '.join(all_datasets)}")
         def fallback_serializer(obj):
@@ -392,20 +425,10 @@ def main():
         print(json.dumps(datasets_to_print, indent=2, default=fallback_serializer))
         return
 
-    # download from json file
-    if o.json:
-        records = []
-        for jsfile in o.json_files:
-            js = json.load(open(jsfile))
-            records.extend(js["records"])
-        download_by_records(records, force_download=o.force, ignore_cache=o.ignore_cache)
-        return
-
-
     # download select only one out of several
     if not o.name:
         print_all_datasets()
-        print("Use the --name NAME or --all flag to specify datasets to download.")
+        print("Provide dataset names or --all or --global flag to specify datasets to download.")
         parser.exit(1)
 
     expanded_names = expand_names(o.name)
