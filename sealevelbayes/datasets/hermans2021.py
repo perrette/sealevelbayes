@@ -1,12 +1,8 @@
 """Data from Hermanns et al (2021) https://agupubs.onlinelibrary.wiley.com/doi/10.1029/2020GL092064
 """
-from pathlib import Path
-import netCDF4 as nc
-import numpy as np
 import xarray as xa
 import pandas as pd
-from sealevelbayes.datasets.manager import register_dataset, get_datapath
-from sealevelbayes.datasets.catalogue import require_hermans2021
+from sealevelbayes.datasets.manager import get_datapath
 
 _root = get_datapath("hermans2021")
 root = _root / "Data"

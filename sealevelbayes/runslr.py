@@ -19,7 +19,7 @@ from sealevelbayes.logs import logger, logging
 from sealevelbayes.datasets.satellite import get_satellite_timeseries, get_satellite_error
 from sealevelbayes.datasets.oceancmip6 import load_all_cmip6
 from sealevelbayes.datasets.tidegaugeobs import load_tidegauge_records
-from sealevelbayes.datasets.ar6.misc import load_temperature
+from sealevelbayes.datasets.climate import load_temperature
 from sealevelbayes.datasets.glaciers import load_zemp, gt_to_mm_sle, MM21_FORCING, open_mm21, get_rate2000_ar6, draw_past_glacier_samples
 from sealevelbayes.datasets.frederikse2020 import sample_greenland_dataset
 

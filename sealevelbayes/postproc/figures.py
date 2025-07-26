@@ -2,12 +2,11 @@
 from functools import partial
 import cloudpickle
 import itertools
-from itertools import product, groupby, chain
 import copy
-from functools import partial
+import json
+import os
 from pathlib import Path
 import argparse
-import json, os
 import subprocess
 import tqdm
 
@@ -16,28 +15,21 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 from matplotlib.transforms import blended_transform_factory
 import xarray as xa
-import pandas as pd
 import arviz
 
 # import sys
 # sys.path.append('notebooks')
 
 from sealevelbayes.config import logger, get_runpath, get_webpath
-import sealevelbayes.datasets.frederikse2020 as frederikse2020
-from sealevelbayes.datasets.shared import MAP_AR6, MAP_FRED_NC
 from sealevelbayes.datasets.tidegaugeobs import tg_years, tg, region_info, psmsl_ids_to_basin, get_station_name
 from sealevelbayes.datasets.satellite import get_satellite_timeseries
-from sealevelbayes.datasets.basins import ThompsonBasins
-from sealevelbayes.datasets.manager import get_datapath
-from sealevelbayes.datasets.ar6.supp import AR6_GLOBAL, get_ar6_numbers
+from sealevelbayes.datasets.ar6.supp import get_ar6_numbers
 
-import sealevelbayes.datasets.ar6.supp
 import sealevelbayes.datasets.ar6 as ar6
-import sealevelbayes.datasets.ar6.misc
-import sealevelbayes.datasets.ar6 as ar6
-from sealevelbayes.postproc.serialize import trace_to_json, interpolate_js, js_to_array, resample_as_json, get_model_quantiles
+from sealevelbayes.datasets.climate import load_temperature
+from sealevelbayes.postproc.serialize import trace_to_json, interpolate_js, resample_as_json, get_model_quantiles
 from sealevelbayes.postproc.colors import xcolors, xlabels, sourcecolors, sourcelabels, sourcelabelslocal, basincolors, legend_title_font
-from sealevelbayes.postproc.gmslfigure import (make_gmsl_timeseries, SELECT_EXPERIMENTS, SELECT_EXPERIMENTS_mu,
+from sealevelbayes.postproc.gmslfigure import (make_gmsl_timeseries,
                                                get_table_numbers, make_table_fig, make_table, )
 
 from sealevelbayes.datasets.ar6.tables import ar6_table_9_8_medium_confidence
@@ -382,7 +374,7 @@ def plot_location_experiments(ax, js, xlim=[1900, 2100], ylim=[-100, 150], exper
                     try:
                         series = ar6ds.loc[:, :, int(ID)]
                     except KeyError as error:
-                        print("!! Failed to load AR6 projection for tide-gauge",ID,experiment,'total',":",str(error))
+                        print("!! Failed to load AR6 projection for tide-gauge",ID,x,'total',":",str(error))
                         continue
                     lo, mid, hi = series.loc[[.05, .5, .95], 2100].values / 10
                     ax.plot([2100, 2100], [lo, hi], color=xcolors.get(x), lw=2, label=f"AR6 {xlabels.get(x, x)}", clip_on=False)
@@ -427,6 +419,7 @@ def plot_location_proj2100_ar6(ax, js=None, xlim=None, ylim=None, experiments=["
         ar6_experiments = experiments
 
     counter = 0
+    xcounter = 0
     for i, (x, x2) in enumerate(zip(experiments, ar6_experiments)):
         ID = IDs[0]
         show_likely_range_ = show_likely_range if show_likely_range is not None else ID is None
@@ -1832,7 +1825,7 @@ def make_proj_figure(global_js=None, stations_js=None, experiments=None, extra_e
         raise ValueError("no stations_js or global_js provided")
     # f, axes = plt.subplots(, 2, figsize=(9.75, 4))
 
-    tas_df = ar6.misc.load_temperature()
+    tas_df = load_temperature()
     tas_pi = tas_df['ssp585'].loc[1995:2014].mean() - tas_df['ssp585'].loc[1855:1900].mean()
 
     # post = arviz.extract(trace.posterior)

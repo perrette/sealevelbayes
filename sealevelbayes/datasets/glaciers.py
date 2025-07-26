@@ -3,17 +3,15 @@ from scipy.signal import savgol_filter
 import numpy as np
 import pandas as pd
 import xarray as xa
-from sealevelbayes.datasets.manager import get_datapath
+from sealevelbayes.datasets.manager import get_datapath, require_dataset
 from sealevelbayes.logs import logger
 from sealevelbayes.cache import cached
 from sealevelbayes.datasets.ar6.tables import ar6_table_9_5
-from sealevelbayes.datasets.ar6.misc import load_temperature
+from sealevelbayes.datasets.climate import load_temperature
 from sealevelbayes.datasets.cmip5 import read_cmip5_tglobal_df
 # from sealevelbayes.datasets.zemp2019 import load_zemp
 # from sealevelbayes.datasets.marzeion import (
 
-import pandas as pd
-from sealevelbayes.datasets import get_datapath
 import sealevelbayes.datasets.ar6 as ar6
 from sealevelbayes.datasets.constants import (
     ice_density, ocean_surface_km2,
@@ -47,21 +45,27 @@ def load_zemp(region_number):
 @cached("glacier_datasets")
 def load_glacier_datasets():
 
+
     ar6_table9sm2 = pd.read_csv(f"{ar6.__path__[0]}/glaciers_ar6_table_9_sm_2.csv")
     ar6_table9sm2.columns = [c.strip() for c in ar6_table9sm2.columns]
     ar6_region_map = {parse_ar6_region(r)[1]: r for r in ar6_table9sm2["Region"][:-1]}
 
-    f19 = pd.read_csv(DATAPATH / "zenodo-7492152-hock2023/fmaussion-global_glacier_volume_paper-882ae46/data/f19.csv")  # Farinotti et al 2019
-    m22 = pd.read_csv(DATAPATH / "zenodo-7492152-hock2023/fmaussion-global_glacier_volume_paper-882ae46/data/m22_corr.csv")  # Millan et al 2022 (corrected for RGI 6.0 mask)
+    hock_path = require_dataset("zenodo-7492152-hock2023")
+    f19 = pd.read_csv(hock_path / "fmaussion-global_glacier_volume_paper-882ae46/data/f19.csv")  # Farinotti et al 2019
+    m22 = pd.read_csv(hock_path / "fmaussion-global_glacier_volume_paper-882ae46/data/m22_corr.csv")  # Millan et al 2022 (corrected for RGI 6.0 mask)
 
-    h21 = pd.read_excel(DATAPATH / "hugonnet2021/41586_2021_3436_MOESM2_ESM.xlsx")
+    hugonnetpath = require_dataset("hugonnet2021/41586_2021_3436_MOESM2_ESM.xlsx")
+    h21 = pd.read_excel(hugonnetpath)
     h21.columns = [c.replace("\n"," ").strip() for c in h21.columns]
     h21 = h21.ffill()
 
     zemp_present = pd.read_csv(get_datapath("zemp2019/glaciers_zemp2019_table1.csv"))
 
-    gmip_past = xa.open_dataset(get_datapath("marzeionmalles2021/suppl_reconstruction_data_region.nc"))
-    gmip_future = xa.open_dataset(get_datapath("pangaea-MarzeionB-etal_2020/suppl_GlacierMIP_results.nc"))
+    gmip_past_path = require_dataset("marzeionmalles2021/suppl_reconstruction_data_region.nc")
+    gmip_past = xa.open_dataset(gmip_past_path)
+
+    gmip_future_path = require_dataset("pangaea-MarzeionB-etal_2020/suppl_GlacierMIP_results.nc")
+    gmip_future = xa.open_dataset(gmip_future_path)
 
     gmip_past = gmip_past.assign_coords(
         Forcing=list(gmip_past["Forcing"].attrs.values()),
@@ -1189,6 +1193,7 @@ def draw_past_glacier_samples(samples=5000, random_seed=None, rng=None, years=No
 
 
 def open_mm21():
+    require_dataset("marzeionmalles2021/suppl_reconstruction_data_region.nc")
     return xa.open_dataset(get_datapath("marzeionmalles2021/suppl_reconstruction_data_region.nc")).assign_coords({"Time": np.arange(1901, 2018+1), "Region": np.arange(1, 18+1), "Forcing": MM21_FORCING})
 
 

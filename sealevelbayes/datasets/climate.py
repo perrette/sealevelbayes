@@ -1,16 +1,9 @@
 """A module to build temperature scenarios
 """
-from itertools import groupby
 import numpy as np
-import xarray as xa
-from scipy.stats import norm
 import pandas as pd
 
-from sealevelbayes.config import logger
-from sealevelbayes.datasets.manager import get_datapath
-from sealevelbayes.datasets.catalogue import require_ar6_wg3
-
-AR6GSAT = get_datapath("AR6_Projections/SurfaceTemperatureGlobal")
+from sealevelbayes.datasets.manager import get_datapath, require_dataset
 
 
 SSP_EXPERIMENTS = ["ssp119", "ssp126", "ssp245", "ssp370", "ssp585"]
@@ -23,13 +16,14 @@ def get_imp_experiment_data(experiments=IMP_EXPERIMENTS, df=None):
     df = df[(df["IMP_marker"] != "non-IMP") & (model == "MAGICCv7.5.3")]
     i2000 = df.columns.tolist().index('2000-01-01 00:00:00')
 
-    year0, low0, mean0, high0 = np.loadtxt(f"{AR6GSAT}/tas_global_Historical.csv", skiprows=1, delimiter=",").T
+    AR6GSAT = require_dataset("ar6_wg1/spm_08/v20210809/panel_a")
+    year0, low0, mean0, high0 = np.loadtxt(AR6GSAT/"tas_global_Historical.csv", skiprows=1, delimiter=",").T
     baseline = mean0[1995-int(year0[0]):2014+1-int(year0[0])].mean()
     baseline2 = mean0[2000-int(year0[0])]
 
     def get_dict(df):
         # df = df.set_index('pct')
-        pct = np.array([float(s.split('|')[3][:-len("th Percentile")]) for s in df['variable']])
+        # pct = np.array([float(s.split('|')[3][:-len("th Percentile")]) for s in df['variable']])
         lo, med, hi = (df.iloc[:, i2000:].values - df.iloc[:, i2000].values[:, None])
         s = df.iloc[0]
 
@@ -60,14 +54,14 @@ def get_ssp_experiment_data(experiments=SSP_EXPERIMENTS):
     "p05": 5th percentile
     "p95": 95th percentile
     """
-
-    year0, low0, mean0, high0 = np.loadtxt(f"{AR6GSAT}/tas_global_Historical.csv", skiprows=1, delimiter=",").T
+    AR6GSAT = require_dataset("ar6_wg1/spm_08/v20210809/panel_a")
+    year0, low0, mean0, high0 = np.loadtxt(AR6GSAT/"tas_global_Historical.csv", skiprows=1, delimiter=",").T
     baseline = mean0[1995-int(year0[0]):2014+1-int(year0[0])].mean()
 
     experiments_data = {}
     for i, x in enumerate(experiments):
         ssp = f"{x[:4]}_{x[4]}_{x[5]}".upper() # ssp585 => SSP5_8_5
-        year, low, mean, high = np.loadtxt(f"{AR6GSAT}/tas_global_{ssp}.csv", skiprows=1, delimiter=",").T
+        year, low, mean, high = np.loadtxt(AR6GSAT/ f"tas_global_{ssp}.csv", skiprows=1, delimiter=",").T
         assert 2014 == year[0]-1  # mean0 starts in 1950, so we use tas_df
         experiments_data[x] = {
             "median": mean - baseline,
@@ -78,62 +72,63 @@ def get_ssp_experiment_data(experiments=SSP_EXPERIMENTS):
 
     return experiments_data
 
-
-def sample_ar6_categories_scenarios(size, experiments=None, random_seed=None, uncertainty=True):
-
-    import ar6.misc
-
-    tas_df = ar6.misc.load_temperature()
-    tas_pi = tas_df['ssp585'].loc[1995:2014].mean() - tas_df['ssp585'].loc[1855:1900].mean()
-    tas_df = tas_df.loc[1900:2099] # only defined up to 2099
-    tas_df -= tas_df.loc[1995:2014].mean()
-
-    tas_hist = tas_df['ssp585'].loc[:2014].values
-
-    rng = np.random.default_rng(seed=random_seed + 98097 if random_seed else None)
-
-    s = rng.normal(size=size)
-
-    cats = make_ar6_categories_scenarios()
-
-    if experiments is None:
-        experiments = list(cats.keys())
-
-    shape = size if type(size) is tuple else (size,)
-    tas = np.empty( shape + (len(experiments), 2099-1900+1))
-
-    for i, x in enumerate(experiments):
-        n = len(cats[x])
-        sample_x = rng.integers(n, size=size)
-
-        mean = np.array([np.concatenate([tas_hist, np.array(r['mu'][15:100]) - tas_pi]) for r in cats[x]])
-        if uncertainty:
-            p95 = np.array([np.concatenate([tas_hist, np.array(r['95th'][15:100]) - r['95th'][14] + r['mu'][14] - tas_pi]) for r in cats[x]])
-            p05 = np.array([np.concatenate([tas_hist, np.array(r['5th'][15:100]) - r['5th'][14] + r['mu'][14] - tas_pi]) for r in cats[x]])
-            sigma_up = (p95-mean)/norm.ppf(0.95)  # 1.64 is the factor to pass from 90% to 1-sigma range
-            sigma_lo = (mean-p05)/norm.ppf(0.95)  # 1.64 is the factor to pass from 90% to 1-sigma range
-            samples = mean[sample_x] + np.where(s[..., None] > 0, s[..., None]*sigma_up[sample_x], s[..., None]*sigma_lo[sample_x])
-        else:
-            samples = mean[sample_x]
-        tas[..., i, :] = samples
-
-
-    coords={"experiment": experiments, "year": np.arange(1900, 2099+1)}
-
-    if np.ndim(size) == 0:
-        dims = ("sample", "experiment", "year")
-        # coords['sample'] = np.arange(size)
-    else:
-        dims = ("chain", "draw", "experiment", "year")
-        # coords['chain'] = np.arange(size[0])
-        # coords['draw'] = np.arange(size[1])
-
-    return xa.DataArray(tas, dims=dims, coords=coords)
-
-
 def load_ar6_wg3_scenarios():
-    return pd.read_csv(require_ar6_wg3())
+    return pd.read_csv(require_dataset("zenodo-6496232-AR6-WG3-plots/spm-box1-fig1-warming-data.csv"))
 
 
-if __name__ == "__main__":
-    load_ar6_wg3_scenarios()
+def load_temperature():
+    """Load median temperature scenarios from AR6 (ssp19,ssp26,ssp45,ssp70,ssp85) merged with historical scenarios.
+
+    See data folder: AR6_Projections/SurfaceTemperatureGlobal for sources.
+    (Data obtained from AR6 supplementary material and online repos.)
+
+    Past data is obtained from SPM1_1850-2020_obs.csv (kind of smooth) and tas_global_Historical.csv (normally smooth but starting only in 1950)
+    The merged time-series start in 1855.
+
+    Recipe: notebooks/topics/temperature-hist-rcp-ssp-ar5-ar6.ipynb
+    """
+    filepath = get_datapath("savedwork/tas_ar6_merged.csv")
+    if not filepath.exists():
+        df = create_merged_temperature_df()
+        df = df.to_csv(filepath)
+    return pd.read_csv(filepath).set_index("year")
+
+
+def create_merged_temperature_df():
+    """Create a merged DataFrame with historical and SSP scenarios."""
+
+    spm_08 = require_dataset("ar6_wg1/spm_08/v20210809/panel_a")
+    spm_01 = require_dataset("ar6_wg1/spm_01/v20221116/panel_a")
+
+    tas_ar6_85 = np.loadtxt(spm_08 / "tas_global_SSP5_8_5.csv", skiprows=1, delimiter=",")[:, [0, 2]]
+    tas_ar6_70 = np.loadtxt(spm_08 / "tas_global_SSP3_7_0.csv", skiprows=1, delimiter=",")[:, [0, 2]]
+    tas_ar6_45 = np.loadtxt(spm_08 / "tas_global_SSP2_4_5.csv", skiprows=1, delimiter=",")[:, [0, 2]]
+    tas_ar6_26 = np.loadtxt(spm_08 / "tas_global_SSP1_2_6.csv", skiprows=1, delimiter=",")[:, [0, 2]]
+    tas_ar6_19 = np.loadtxt(spm_08 / "tas_global_SSP1_1_9.csv", skiprows=1, delimiter=",")[:, [0, 2]]
+
+    tas_ar6_hist = np.loadtxt(spm_08 / "tas_global_Historical.csv", skiprows=1, delimiter=",")[:, [0, 2]]
+    tas_ar6_hist2 = np.loadtxt(spm_01 / "SPM1_1850-2020_obs-clean.csv", skiprows=1, delimiter=",")[::-1]
+
+    sat_ar6_hist = pd.Series(tas_ar6_hist[:,1], index=tas_ar6_hist[:,0])
+    sat_ar6_hist2 = pd.Series(tas_ar6_hist2[:,1], index=tas_ar6_hist2[:,0])
+
+    years = np.arange(1855, 2100)
+
+    def merged_with_past(ssp):
+        merged = np.empty(years.size)
+        merged[years < 1950] = sat_ar6_hist2.loc[:1949].values
+        merged[(years >= 1950) & (years < 2015)] = sat_ar6_hist.loc[1950:2014].values
+        merged[years >= 2015] = ssp
+        return merged
+
+
+    df = pd.DataFrame({
+        "year":years,
+        "ssp19":merged_with_past(tas_ar6_19[:,1]),
+        "ssp26":merged_with_past(tas_ar6_26[:,1]),
+        "ssp45":merged_with_past(tas_ar6_45[:,1]),
+        "ssp70":merged_with_past(tas_ar6_70[:,1]),
+        "ssp85":merged_with_past(tas_ar6_85[:,1]),
+        }).set_index("year")
+
+    return df

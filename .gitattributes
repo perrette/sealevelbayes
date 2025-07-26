@@ -35,3 +35,6 @@ datasets.json !filter !diff !merge text
 sealevelbayes/datasets/ar6/glaciers_ar6_table_9_sm_2.csv !filter !diff !merge text
 sealevelbayes/datasets/ar6/pb_fits_by_matthias.json !filter !diff !merge text
 pm2025/configs/*/*.json !filter !diff !merge text
+sealeveldata/ar6_wg1/spm_01/v20221116/panel_a/SPM1_1850-2020_obs-clean.csv !filter !diff !merge text
+sealevelbayes/datasets/catalogue.json !filter !diff !merge text
+sealeveldata/Budget_20c/tg/hogarth_stations.json !filter !diff !merge text

@@ -4,7 +4,7 @@ import glob
 import os
 import pandas as pd
 
-from sealevelbayes.datasets.catalogue import require_rgi7_global, require_rgi5_attribs
+from sealevelbayes.datasets.manager import require_dataset
 
 rgi_regions = {
     1: "Alaska",
@@ -33,10 +33,10 @@ def load_glaciers_metadata(regions=None, version="7.0", rename=True):
     kwargs = {}
     rename = {}
     if version == "7.0":
-        datapath = require_rgi7_global()
+        datapath = require_dataset("nsidc0770_rgi_v7/global_files/RGI2000-v7.0-G-global")
         files = {int(os.path.basename(file)[15:15+2]): file for file in sorted(glob.glob(f"{datapath}/RGI2000-v7.0-G-*/RGI2000-v7.0-G-*-attributes.csv"))}
     elif version == "5.0":
-        datapath = require_rgi5_attribs()
+        datapath = require_dataset("nsidc0770_rgi_v5/nsidc0770_00.rgi50.attribs")
         files = {int(os.path.basename(file)[:2]): file for file in sorted(glob.glob(f"{datapath}/*.csv"))}
         kwargs = {"encoding":'latin1'}
         rename = {"Area": "area_km2", "O1Region": "o1region"}

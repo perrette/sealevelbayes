@@ -3,8 +3,7 @@
 import numpy as np
 import pandas as pd
 from sealevelbayes.config import logger
-from sealevelbayes.datasets.manager import get_datapath, require_dataset_by_name
-from sealevelbayes.datasets.catalogue import download_met_monthly, download_rlr_monthly, download_rlr_annual
+from sealevelbayes.datasets.manager import get_datapath, require_dataset
 
 psmslroot = get_datapath('psmsl')
 annual = psmslroot / 'rlr_annual'
@@ -33,14 +32,14 @@ def is_rlr(id):
 
 
 def load_filelist_rlr():
-    require_dataset_by_name("psmsl/rlr_annual")
+    require_dataset("psmsl/rlr_annual")
     df = pd.read_csv(annual / "filelist.txt", sep=";", header=None, skipinitialspace=True)
     df.columns = ["ID", "latitude", "longitude", "station name", "coastline code", "station code", "qcflag"]
     df['station name'] = df['station name'].str.strip()
     return df
 
 def load_filelist_all():
-    require_dataset_by_name("psmsl/met_monthly")
+    require_dataset("psmsl/met_monthly")
     df = pd.read_csv(metric_monthly / "filelist.txt", sep=";", header=None, skipinitialspace=True)
     df.columns = ["ID", "latitude", "longitude", "station name", "coastline code", "station code", "qcflag"]
     df['station name'] = df['station name'].str.strip()
@@ -48,7 +47,7 @@ def load_filelist_all():
 
 def load_filelist_rlr_html():
     """from the website https://psmsl.org/data/obtaining/index.php using pandas' read_html"""
-    return pd.read_csv(psmslroot / f"station_list_psmsl_20230620.csv", skipinitialspace=True)
+    return pd.read_csv(psmslroot / "station_list_psmsl_20230620.csv", skipinitialspace=True)
 
 def load_rlr(id, **kw):
     path = annual / f"data/{id}.rlrdata"

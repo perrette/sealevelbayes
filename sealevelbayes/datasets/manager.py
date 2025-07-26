@@ -196,9 +196,25 @@ def extract_archive(downloaded, path, ext=None, members=None, recursive=False, d
 def get_filename_from_url(url):
     return os.path.basename(url)
 
-def require_dataset(name, url=None, extract=None, force_download=None, extract_name=None, members=None, recursive=False, skip_download=False, ext=None, caller=None, ignore_cache=False, wget_args=None, **metadata):
+def _require_dataset(name, url=None, extract=None, force_download=None, extract_name=None, members=None, recursive=False, skip_download=False, ext=None, caller=None, ignore_cache=False, wget_args=None, **metadata):
 
     filepath = get_datapath(name)
+
+    if type(url) is list:
+        # if url is a list, register each url with the same name
+        for u in url:
+            # parser url u and derive a sub-name from it, to append to name
+            # use urlparse to remove query parameters
+            if u.endswith("/"):
+                u = u[:-1]
+            for char in ["?", "#"]:
+                if char in u:
+                    u = u.split(char)[0]
+            sub_name = u.split("/")[-1]
+            _require_dataset(name + "/" + sub_name, u, extract=extract, force_download=force_download, extract_name=extract_name, members=members, recursive=recursive, skip_download=skip_download, ext=ext, caller=caller, ignore_cache=ignore_cache, wget_args=wget_args, **metadata)
+        return filepath
+
+
     dataset_json = get_datapath("datasets.json")
 
     download_folder = get_downloadpath()
@@ -271,12 +287,12 @@ def register_dataset(name, url=None, **kwargs):
     """
     record = {"name": name, "url": url, **kwargs }
     DATASET_REGISTER['records'].append(record)
-    return functools.partial(require_dataset, **record)
+    return functools.partial(_require_dataset, **record)
 
-def require_dataset_by_name(name):
+def require_dataset(name):
     for record in DATASET_REGISTER['records']:
         if record['name'] == name:
-            return require_dataset(**record)
+            return _require_dataset(**record)
 
     raise ValueError(f"Dataset {name} not found in the register. Available datasets are {', '.join([r['name'] for r in DATASET_REGISTER['records']])}")
 
@@ -284,7 +300,7 @@ def require_dataset_by_name(name):
 def download_by_records(records, **kwargs):
 
     for r in records:
-        require_dataset(**r, **kwargs)
+        _require_dataset(**r, **kwargs)
 
 def expand_names(names):
     """The input list may contain wild cards
@@ -389,7 +405,7 @@ def main():
     # download select only one out of several
     if not o.name:
         print_all_datasets()
-        print(f"Use the --name NAME or --all flag to specify datasets to download.")
+        print("Use the --name NAME or --all flag to specify datasets to download.")
         parser.exit(1)
 
     expanded_names = expand_names(o.name)

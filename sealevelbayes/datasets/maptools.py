@@ -1,13 +1,6 @@
-import itertools
 import numpy as np
-from pathlib import Path
-import tqdm
-import xarray as xa
 from scipy.interpolate import RegularGridInterpolator
-
 from sealevelbayes.logs import logger
-from sealevelbayes.datasets.manager import require_dataset
-from sealevelbayes.datasets.naturalearth import add_coast, add_land
 
 # Haversine function to compute geodesic distance between two points
 def haversine(lat1, lon1, lat2, lon2):

@@ -1,7 +1,6 @@
 import itertools
 
-from sealevelbayes.datasets.manager import get_datapath
-from sealevelbayes.datasets.catalogue import register_coast, register_land, require_coast_110m, require_land_50m
+from sealevelbayes.datasets.manager import get_datapath, require_dataset
 
 NE_DATA = get_datapath("naturalearth")
 
@@ -9,8 +8,9 @@ coastline_data = {}
 
 def _init_coast(res="110m"):
 
+    require_dataset(f"naturalearth/ne_{res}_coastline")
+
     import fiona
-    import shapely
     import shapely.geometry as shg
 
     coll = list(fiona.open(NE_DATA/f"ne_{res}_coastline/ne_{res}_coastline.shp"))
@@ -27,19 +27,20 @@ land_data = {}
 def _init_land(res='110m'):
 
     import fiona
-    import shapely
     import shapely.geometry as shg
+
+    require_dataset(f"naturalearth/ne_{res}_land")
 
     coll = list(fiona.open(NE_DATA/f"ne_{res}_land/ne_{res}_land.shp"))
     return shg.GeometryCollection([shg.shape(s["geometry"]) for s in coll])
 
-def get_land_data(res="110m"):
+def get_land_data(res="50m"):
     if res not in land_data:
         land_data[res] = _init_land(res)
     return land_data[res]
 
 
-def add_coast(ax=None, color='k', linewidth='.5', lon0=None, shift_lon=0, res='110m', bbox=None, **kw):
+def add_coast(ax=None, color='k', linewidth='.5', lon0=None, shift_lon=0, res='50m', bbox=None, **kw):
     import numpy as np
     import matplotlib.pyplot as plt
     import shapely.affinity

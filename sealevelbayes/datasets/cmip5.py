@@ -1,11 +1,8 @@
 """CMIP5 Tas files from the KNMI Climate Explorer
 """
-import subprocess as sp
 import re
 import pandas as pd
 from sealevelbayes.datasets import get_datapath
-from sealevelbayes.datasets.catalogue import climexp_folder as climexp
-
 
 regex = re.compile(r"global_tas_Amon_(?P<model>[\w-]+)_(?P<experiment>\w+?)_(?P<ensemble_member>\w+?)\.dat")
 # regex_strict = re.compile(r"global_tas_Amon_(?P<model>[\w-]+)_(?P<experiment>\w+?)_(?P<ensemble_member>r\d+i\d+p\d+)\.dat")

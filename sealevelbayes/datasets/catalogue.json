@@ -1,0 +1,195 @@
+{
+  "records": [
+    {
+      "name": "gistemp/tabledata_v4/GLB.Ts+dSST.csv",
+      "url": "https://data.giss.nasa.gov/gistemp/tabledata_v4/GLB.Ts+dSST.csv",
+      "info": "https://data.giss.nasa.gov/gistemp/"
+    },
+    {
+      "name": "hermans2021",
+      "url": "https://data.4tu.nl/file/47d62866-50ea-448c-a20a-f26913acd72f/fcc93446-8e63-4f15-8f31-b1cc94d1bf53",
+      "doi": "10.4121/12958079.v1",
+      "ext": ".zip"
+    },
+    {
+      "name": "naturalearth/ne_110m_coastline",
+      "url": "https://naturalearth.s3.amazonaws.com/110m_physical/ne_110m_coastline.zip",
+      "ext": ".zip"
+    },
+    {
+      "name": "naturalearth/ne_50m_land",
+      "url": "https://naturalearth.s3.amazonaws.com/50m_physical/ne_50m_land.zip",
+      "ext": ".zip"
+    },
+    {
+      "name": "zenodo-6419954-garner_kopp_2022/modules-data",
+      "url": "https://zenodo.org/records/6419954/files/modules-data.zip?download=1",
+      "doi": "10.5281/zenodo.6419953",
+      "ext": ".zip",
+      "skip_download": true
+    },
+    {
+      "name": "zenodo-6419954-garner_kopp_2022/modules-data-zos",
+      "url": "https://zenodo.org/records/6419954/files/modules-data-zos.zip?download=1",
+      "doi": "10.5281/zenodo.6419953",
+      "ext": ".zip",
+      "skip_download": true
+    },
+    {
+      "name": "zenodo-6496232-AR6-WG3-plots/spm-box1-fig1-warming-data.csv",
+      "url": "https://zenodo.org/records/6496232/files/data/raw/spm-box-1-fig-1/spm-box1-fig1-warming-data.csv?download=1"
+    },
+    {
+      "name": "zenodo-3862995-frederikse2020",
+      "url": "https://zenodo.org/api/records/3862995/files-archive",
+      "doi": "10.5281/zenodo.3862994",
+      "ext": ".zip"
+    },
+    {
+      "name": "pangaea-10.1594/PANGAEA.890030/Bamber-etal_2018.tab",
+      "url": "https://doi.pangaea.de/10.1594/PANGAEA.890030?format=textfile",
+      "doi": "10.1594/PANGAEA.890030"
+    },
+    {
+      "name": "zenodo-6382554-garner2021/ar6-regional-confidence",
+      "url": "https://zenodo.org/records/6382554/files/ar6-regional-confidence.zip?download=1",
+      "ext": ".zip",
+      "extract_name": "zenodo-6382554-garner2021"
+    },
+    {
+      "name": "zenodo-6382554-garner2021/ar6",
+      "url": "https://zenodo.org/records/6382554/files/ar6.zip?download=1",
+      "ext": ".zip",
+      "extract_name": "zenodo-6382554-garner2021"
+    },
+    {
+      "name": "zenodo-6382554-garner2021/location_list.lst",
+      "url": "https://zenodo.org/records/6382554/files/location_list.lst?download=1"
+    },
+    {
+      "name": "church_white_gmsl_2011_up",
+      "url": "http://www.cmar.csiro.au/sealevel/downloads/church_white_gmsl_2011_up.zip",
+      "ext": ".zip",
+      "info": "http://www.cmar.csiro.au/sealevel/sl_data_cmar.html",
+      "extract_name": "."
+    },
+    {
+      "name": "prandi2021/quality_controlled_data_77853.nc",
+      "url": "https://www.seanoe.org/data/00637/74862/data/77853.nc",
+      "info": "https://www.seanoe.org/data/00637/74862/"
+    },
+    {
+      "name": "10.1594/PANGAEA.896940",
+      "url": "https://store.pangaea.de/Publications/VandenBroekeM_2019/RACMO2.3p1_ANT27_SMB_yearly_1979_2014.zip",
+      "ext": ".zip",
+      "doi": "10.1594/PANGAEA.896940"
+    },
+    {
+      "name": "psmsl/2023/rlr_annual",
+      "url": "https://psmsl.org/data/obtaining/year_end/2023/rlr_annual.zip",
+      "extract_name": "psmsl"
+    },
+    {
+      "name": "psmsl/2022/rlr_annual",
+      "url": "https://psmsl.org/data/obtaining/year_end/2022/rlr_annual.zip",
+      "extract_name": "psmsl"
+    },
+    {
+      "name": "psmsl/2021/rlr_annual",
+      "url": "https://psmsl.org/data/obtaining/year_end/2021/rlr_annual.zip",
+      "extract_name": "psmsl"
+    },
+    {
+      "name": "psmsl/rlr_annual",
+      "url": "https://psmsl.org/data/obtaining/rlr.annual.data/rlr_annual.zip",
+      "extract_name": "psmsl"
+    },
+    {
+      "name": "psmsl/rlr_monthly",
+      "url": "https://psmsl.org/data/obtaining/rlr.monthly.data/rlr_monthly.zip",
+      "extract_name": "psmsl"
+    },
+    {
+      "name": "psmsl/met_monthly",
+      "url": "https://psmsl.org/data/obtaining/met.monthly.data/met_monthly.zip",
+      "extract_name": "psmsl"
+    },
+    {
+      "name": "zenodo-3557199-zemp2019",
+      "url": "https://zenodo.org/records/3557199/files/Zemp_etal_results_regions_global_v11.zip?download=1",
+      "recursive": true,
+      "info": "https://zenodo.org/records/3557199"
+    },
+    {
+      "name": "nsidc0770_rgi_v7/global_files/RGI2000-v7.0-G-global",
+      "url": "https://daacdata.apps.nsidc.org/pub/DATASETS/nsidc0770_rgi_v7/global_files/RGI2000-v7.0-G-global.zip",
+      "wget_args": "--load-cookies ~/.urs_cookies --save-cookies ~/.urs_cookies --keep-session-cookies --no-check-certificate --auth-no-challenge=on --reject \"index.html*\" -np -e robots=off",
+      "recursive": true,
+      "info": "NASA NSIDC Datasets: See instruction here to setup a .netrc file with your EarthData login echo \"machine urs.earthdata.nasa.gov login $LOGIN password $PASSWORD\" >> ~/.netrc chmod 0600 ~/.netrc"
+    },
+    {
+      "name": "nsidc0770_rgi_v6/nsidc0770_00.rgi60.attribs",
+      "url": "https://daacdata.apps.nsidc.org/pub/DATASETS/nsidc0770_rgi_v6/nsidc0770_00.rgi60.attribs.zip",
+      "wget_args": "--load-cookies ~/.urs_cookies --save-cookies ~/.urs_cookies --keep-session-cookies --no-check-certificate --auth-no-challenge=on --reject \"index.html*\" -np -e robots=off",
+      "recursive": true,
+      "info": "NASA NSIDC Datasets: See instruction here to setup a .netrc file with your EarthData login echo \"machine urs.earthdata.nasa.gov login $LOGIN password $PASSWORD\" >> ~/.netrc chmod 0600 ~/.netrc"
+    },
+    {
+      "name": "nsidc0770_rgi_v5/nsidc0770_00.rgi50.attribs",
+      "url": "https://daacdata.apps.nsidc.org/pub/DATASETS/nsidc0770_rgi_v5/nsidc0770_00.rgi50.attribs.zip",
+      "wget_args": "--load-cookies ~/.urs_cookies --save-cookies ~/.urs_cookies --keep-session-cookies --no-check-certificate --auth-no-challenge=on --reject \"index.html*\" -np -e robots=off",
+      "recursive": true,
+      "info": "NASA NSIDC Datasets: See instruction here to setup a .netrc file with your EarthData login echo \"machine urs.earthdata.nasa.gov login $LOGIN password $PASSWORD\" >> ~/.netrc chmod 0600 ~/.netrc"
+    },
+    {
+      "name": "marzeionmalles2021/suppl_reconstruction_data_region.nc",
+      "url": "https://download.pangaea.de/dataset/931657/files/suppl_reconstruction_data_region.nc",
+      "doi": "10.1594/PANGAEA.931657"
+    },
+    {
+      "name": "zenodo-7492152-hock2023",
+      "url": "https://zenodo.org/records/7492152/files/fmaussion/global_glacier_volume_paper-v1.1.zip?download=1"
+    },
+    {
+      "name": "pangaea-MarzeionB-etal_2020/suppl_GlacierMIP_results.nc",
+      "url": "https://store.pangaea.de/Publications/MarzeionB-etal_2020/suppl_GlacierMIP_results.nc"
+    },
+    {
+      "name": "hugonnet2021/41586_2021_3436_MOESM2_ESM.xlsx",
+      "url": "https://static-content.springer.com/esm/art%3A10.1038%2Fs41586-021-03436-z/MediaObjects/41586_2021_3436_MOESM2_ESM.xlsx",
+      "doi": "10.1038/s41586-021-03436-z",
+      "info": "Supplementary table 4 at https://doi.org/10.1038/s41586-021-03436-z"
+    },
+    {
+      "name": "ar6_wg1/spm_01/v20221116/panel_a",
+      "url": [
+        "https://dap.ceda.ac.uk/badc/ar6_wg1/data/spm/spm_01/v20221116/panel_a/SPM1_1850-2020_obs.csv?download=1"
+        ],
+      "doi": "10.5285/0b2759059ad6474098e40dad73e0a8ec",
+      "info": "The data can be obtained from https://data.ceda.ac.uk/badc/ar6_wg1/data/spm/spm_01/v20221116/panel_a",
+      "skip_download": true,
+      "citations": [
+        "IPCC, 2021: Summary for Policymakers. In: Climate Change 2021: The Physical Science Basis. Contribution of Working Group I to the Sixth Assessment Report of the Intergovernmental Panel on Climate Change [Masson-Delmotte, V., P. Zhai, A. Pirani, S. L. Connors, C. Péan, S. Berger, N. Caud, Y. Chen, L. Goldfarb, M. I. Gomis, M. Huang, K. Leitzell, E. Lonnoy, J.B.R. Matthews, T. K. Maycock, T. Waterfield, O. Yelekçi, R. Yu and B. Zhou (eds.)]. Cambridge University Press. In Press.",
+        "Gillett, N.P.; Malinina, E.; Kaufman, D.; Neukom, R. (2023): Summary for Policymakers of the Working Group I Contribution to the IPCC Sixth Assessment Report - data for Figure SPM.1 (v20221116). NERC EDS Centre for Environmental Data Analysis, 03 July 2023. doi:10.5285/0b2759059ad6474098e40dad73e0a8ec. https://dx.doi.org/10.5285/0b2759059ad6474098e40dad73e0a8ec"
+
+      ]
+    },
+    {
+      "name": "ar6_wg1/spm_08/v20210809/panel_a",
+      "url": [
+        "https://dap.ceda.ac.uk/badc/ar6_wg1/data/spm/spm_08/v20210809/panel_a/tas_global_Historical.csv?download=1",
+        "https://dap.ceda.ac.uk/badc/ar6_wg1/data/spm/spm_08/v20210809/panel_a/tas_global_SSP1_1_9.csv?download=1",
+        "https://dap.ceda.ac.uk/badc/ar6_wg1/data/spm/spm_08/v20210809/panel_a/tas_global_SSP2_4_5.csv?download=1",
+        "https://dap.ceda.ac.uk/badc/ar6_wg1/data/spm/spm_08/v20210809/panel_a/tas_global_SSP3_7_0.csv?download=1",
+        "https://dap.ceda.ac.uk/badc/ar6_wg1/data/spm/spm_08/v20210809/panel_a/tas_global_SSP5_8_5.csv?download=1"
+      ],
+      "doi": "10.5285/98af2184e13e4b91893ab72f301790db",
+      "info": "The data can be obtained from https://data.ceda.ac.uk/badc/ar6_wg1/data/spm/spm_08/v20210809/panel_a",
+      "skip_download": false,
+      "citations": [
+        "IPCC, 2021: Summary for Policymakers. In: Climate Change 2021: The Physical Science Basis. Contribution of Working Group I to the Sixth Assessment Report of the Intergovernmental Panel on Climate Change [Masson-Delmotte, V., P. Zhai, A. Pirani, S. L. Connors, C. Péan, S. Berger, N. Caud, Y. Chen, L. Goldfarb, M. I. Gomis, M. Huang, K. Leitzell, E. Lonnoy, J.B.R. Matthews, T. K. Maycock, T. Waterfield, O. Yelekçi, R. Yu and B. Zhou (eds.)]. Cambridge University Press. In Press.",
+        "Fyfe, J.; Fox-Kemper, B.; Kopp, R.; Garner, G. (2021): Summary for Policymakers of the Working Group I Contribution to the IPCC Sixth Assessment Report - data for Figure SPM.8 (v20210809). NERC EDS Centre for Environmental Data Analysis, date of citation. doi:10.5285/98af2184e13e4b91893ab72f301790db."
+      ]
+    }
+  ]
+}

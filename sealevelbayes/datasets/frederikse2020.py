@@ -6,8 +6,7 @@ import netCDF4 as nc
 import pandas as pd
 import xarray as xa
 
-from sealevelbayes.datasets.manager import get_datapath
-from sealevelbayes.datasets.catalogue import require_frederikse, require_bamber
+from sealevelbayes.datasets.manager import get_datapath, require_dataset
 from sealevelbayes.datasets.constants import gt_to_mm_sle
 
 sources = ["AIS", "GrIS", "glac", "steric", "tws", "total"]
@@ -17,7 +16,7 @@ root = get_datapath("zenodo-3862995-frederikse2020")
 PERSONALCOM = get_datapath("frederikse2020-personal-comm")
 
 def load_region_info():
-    require_frederikse()
+    require_dataset("zenodo-3862995-frederikse2020")
     sheets = ["Subpolar North Atlantic", "Indian Ocean - South Pacific", "Subtropical North Atlantic",
               "East Pacific", "South Atlantic", "Northwest Pacific"]
 
@@ -195,15 +194,13 @@ def load_global():
     return pd.DataFrame(data)
 
 
-
-
 def open_rgi_fingerprint(region_id):
     fname = PERSONALCOM / f"fingerprints/RGI_{region_id}.nc"
     return xa.open_dataset(fname)
 
 
 def load_bamber():
-    filepath = require_bamber()
+    filepath = require_dataset("pangaea-10.1594/PANGAEA.890030/Bamber-etal_2018.tab")
     return pd.read_csv(filepath, sep="\t", skiprows=20, index_col=0)
 
 def load_mouginot():

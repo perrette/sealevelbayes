@@ -8,10 +8,9 @@ import pytensor.tensor as pt # type: ignore
 import pymc as pm # type: ignore
 
 from sealevelbayes.logs import logger
-from sealevelbayes.datasets.ar6.misc import load_temperature
 from sealevelbayes.datasets.ar6.tables import (
     ar6_table_9_5, ar6_table_9_5_quantiles )
-from sealevelbayes.datasets.climate import SSP_EXPERIMENTS, get_ssp_experiment_data, IMP_EXPERIMENTS, get_imp_experiment_data
+from sealevelbayes.datasets.climate import load_temperature, SSP_EXPERIMENTS, get_ssp_experiment_data, IMP_EXPERIMENTS, get_imp_experiment_data
 from sealevelbayes.preproc.gmsldatasets import get_merged_mvnormal, get_fred_mvnormal
 from sealevelbayes.preproc.stats import fit_dist_to_quantiles
 from sealevelbayes.models.glaciermodels import get_uncharted_glacier_global, get_uncharted_glacier_distribution, GlacierModelRegion, load_model_data as load_glacier_data
